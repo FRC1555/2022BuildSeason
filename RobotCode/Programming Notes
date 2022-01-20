@@ -1,6 +1,1 @@
-Commands: Simple state machines that perform robot functions using the methods defined by subsystems.
-Subsystems: Groups hardware together in an organized function so that it can then be used by commands. 
-Constants (RobotMap): Stores all the hardware that is used by the robot.
-Main: Creates the program, doesn't needed to be edited.
-Robot: The assembly of the order of commands for a robot.
-RobotContainer (OI): Stores all button mapping/ button binding.
+
