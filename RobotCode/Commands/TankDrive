@@ -36,7 +36,8 @@ public class TankDrive extends CommandBase {
       double rightStickY = Robot.m_robotContainer.GetDriverRawAxis(Constants.RIGHT_STICK_Y);
 
       boolean Button_1 = Robot.m_robotContainer.GetDriverRawButton(Constants.BUTTON_1);
-
+      
+       //Default Robot Speed is 50% of normal speed unless 1 is pressed
       if (Button_1 = true){
         Robot.driveTrain.setLeftMotors(leftStickY);
         Robot.driveTrain.setRightMotors(rightStickY);
