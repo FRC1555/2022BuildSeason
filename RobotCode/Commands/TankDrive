@@ -1,1 +1,68 @@
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+public class TankDrive extends CommandBase {
+@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private DriveTrain driveTrain;
+
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param DT The subsystem used by this command.
+   */
+  public TankDrive() {
+    // Use addRequirements() here to declare subsystem dependencies.
+   
+
+  }
+
+
+// Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+      double leftStickY = Robot.m_robotContainer.GetDriverRawAxis(Constants.LEFT_STICK_Y);
+      double rightStickY = Robot.m_robotContainer.GetDriverRawAxis(Constants.RIGHT_STICK_Y);
+
+      boolean Button_1 = Robot.m_robotContainer.GetDriverRawButton(Constants.BUTTON_1);
+
+      if (Button_1 = true){
+        Robot.driveTrain.setLeftMotors(leftStickY);
+        Robot.driveTrain.setRightMotors(rightStickY);
+      }
+
+      else{
+        Robot.driveTrain.setLeftMotors(leftStickY * 0.5);
+        Robot.driveTrain.setRightMotors(rightStickY * 0.5);
+      }
+    
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+      Robot.driveTrain.setLeftMotors(0);
+      Robot.driveTrain.setRightMotors(0);
+
+  }
+
+  
+}
+ 
