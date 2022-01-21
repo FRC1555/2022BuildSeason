@@ -9,6 +9,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;  
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 //import edu.wpi.first.wpilibj.Joystick.ButtonType;
 //import edu.wpi.first.wpilibj.buttons.JoystickButton;
 //import edu.wpi.first.wpilibj.buttons.POVButton;
@@ -20,14 +22,20 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
+  Joystick driverController_1 = new Joystick(Constants.DRIVER_CONTROLLER_1);
+  Joystick driverController_2 = new Joystick(Constants.DRIVER_CONTROLLER_2);
   Joystick Button = new Joystick(Constants.DRIVER_CONTROLLER_BUTTON);
 
-  public double GetDriverRawAxis(int axis){
-    return driverController.getRawAxis(axis);
-  }
+  public static DriveTrain driveTrain = new DriveTrain();
 
+  public double GetDriverRawAxis_1(int axis){
+    return driverController_1.getRawAxis(axis);
+  }
+  
+  public double GetDriverRawAxis_2(int axis){
+    return driverController_2.getRawAxis(axis);
+  
+  }
   public boolean GetDriverRawButton(int button){
     return Button.getRawButton(button);
   }
@@ -37,6 +45,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    driveTrain.setDefaultCommand(new MecanumDrive());
+
   }
 
   /**
@@ -58,4 +69,3 @@ public class RobotContainer {
 
   }
 }
-
