@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 public class TankDrive extends CommandBase {
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -32,12 +31,12 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double leftStickY = Robot.m_robotContainer.GetDriverRawAxis(Constants.LEFT_STICK_Y);
-      double rightStickY = Robot.m_robotContainer.GetDriverRawAxis(Constants.RIGHT_STICK_Y);
+      double leftStickY = Robot.m_robotContainer.GetDriverRawAxis_1(Constants.LEFT_STICK_Y);
+      double rightStickY = Robot.m_robotContainer.GetDriverRawAxis_2(Constants.RIGHT_STICK_Y);
 
       boolean Button_1 = Robot.m_robotContainer.GetDriverRawButton(Constants.BUTTON_1);
-      
-       //Default Robot Speed is 50% of normal speed unless 1 is pressed
+    
+      //Default Robot Speed is 50% of normal speed unless 1 is pressed
       if (Button_1 = true){
         Robot.driveTrain.setLeftMotors(leftStickY);
         Robot.driveTrain.setRightMotors(rightStickY);
