@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.MecDrive;
 import frc.robot.commands.TankDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -25,7 +26,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void initDefaultCommand(){
-    setDefaultCommand(new mecanumDrive());
+    setDefaultCommand(new MecDrive());
   }
 
   public void setLeftMotors(double speed){
@@ -38,20 +39,12 @@ public class DriveTrain extends SubsystemBase {
     motorRightBack.set(speed);
   }
 
-  public void setLeftFrontRightBack(double speed){
-    motorLeftFront.set(speed);
-    motorRightBack.set(speed);
-  }
-
-  public void seRightFrontLeftBack(double speed){
-    motorRightFront.set(speed);
+  public void mecanumDrive(double speed) {
+    motorLeftFront.set(-speed);
+    motorRightFront.set(-speed);
     motorLeftBack.set(speed);
-  }
-
-  public void mecanumDrive(double ySpeed, double xSpeed, double zRotation) {
-    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+    motorRightBack.set(speed);
   }
 
 
 }
-
