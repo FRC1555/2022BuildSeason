@@ -6,45 +6,37 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.MecDrive;
-//import frc.robot.commands.TankDrive;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-//import edu.wpi.first.wpilibj.drive.MecanumDrive;
+
 
 public class DriveTrain extends SubsystemBase {
-  private PWMVictorSPX motorLeftFront = new PWMVictorSPX(Constants.MOTOR_LEFT_FRONT_ID);
-  private PWMVictorSPX motorLeftBack = new PWMVictorSPX(Constants.MOTOR_LEFT_BACK_ID);
-  private PWMVictorSPX motorRightFront = new PWMVictorSPX(Constants.MOTOR_RIGHT_FRONT_ID);
-  private PWMVictorSPX motorRightBack = new PWMVictorSPX(Constants.MOTOR_RIGHT_BACK_ID);
-  //private MecanumDrive mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
 
+  PWMVictorSPX motorLeftFront;
+  PWMVictorSPX motorLeftBack;
+  PWMVictorSPX motorRightFront;
+  PWMVictorSPX motorRightBack;
+  MecanumDrive mecanumDrive;
 
+  public DriveTrain(){
+  motorLeftFront = new PWMVictorSPX(Constants.MOTOR_LEFT_FRONT_ID);
+  motorLeftBack = new PWMVictorSPX(Constants.MOTOR_LEFT_BACK_ID);
+  motorRightFront = new PWMVictorSPX(Constants.MOTOR_RIGHT_FRONT_ID);
+  motorRightBack = new PWMVictorSPX(Constants.MOTOR_RIGHT_BACK_ID);
+  //Inverts Motors For Mecanum
+  motorLeftFront.setInverted(true);
+  motorLeftBack.setInverted(true);
 
+  mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
+  }
+  public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
+    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
-  public void initDefaultCommand(){
-    setDefaultCommand(new MecDrive());
-  }
-
-  public void setLeftMotors(double speed){
-    motorLeftFront.set(-speed);
-    motorLeftBack.set(-speed);
-  }
-
-  public void setRightMotors(double speed){
-    motorRightFront.set(speed);
-    motorRightBack.set(speed);
-  }
-
-  public void mecanumDrive(double speed) {
-    motorLeftFront.set(-speed);
-    motorRightFront.set(-speed);
-    motorLeftBack.set(speed);
-    motorRightBack.set(speed);
-  }
-
-
 }
+
