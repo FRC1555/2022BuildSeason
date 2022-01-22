@@ -14,14 +14,13 @@ package frc.robot;
  */
 public final class Constants {
 
+    //Motor Constants
     public static final int MOTOR_LEFT_FRONT_ID = 0;
     public static final int MOTOR_LEFT_BACK_ID = 1;
     public static final int MOTOR_RIGHT_FRONT_ID = 2;
     public static final int MOTOR_RIGHT_BACK_ID = 3;
-    public static final int LEFT_STICK_Y = 1;
-    public static final int RIGHT_STICK_Y = 0;
-    public static final int DRIVER_CONTROLLER_BUTTON = 0;
-    public static final int BUTTON_1 = 0;
+
+    //Driver Controller Constants
     public static final int DRIVER_CONTROLLER_1 = 0;
-    public static final int DRIVER_CONTROLLER_2 = 0;
-;}
+    public static final int DRIVER_CONTROLLER_2 = 1;
+}
