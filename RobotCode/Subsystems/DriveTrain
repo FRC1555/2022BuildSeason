@@ -7,22 +7,38 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 
 
 public class DriveTrain extends SubsystemBase {
 
-  PWMVictorSPX motorLeftFront;
-  PWMVictorSPX motorLeftBack;
-  PWMVictorSPX motorRightFront;
-  PWMVictorSPX motorRightBack;
-  MecanumDrive mecanumDrive;
+  public PWMVictorSPX motorLeftFront;
+  public PWMVictorSPX motorLeftBack;
+  public PWMVictorSPX motorRightFront;
+  public PWMVictorSPX motorRightBack;
+
+  public Encoder motorLeftFrontEncoder;
+  public Encoder motorLeftBackEncoder;
+  public Encoder motorRightFrontEncoder;
+  public Encoder motorRightBackEncoder;
+
+  public MecanumDrive mecanumDrive;
 
   public DriveTrain(){
-  motorLeftFront = new PWMVictorSPX(Constants.MOTOR_LEFT_FRONT_ID);
-  motorLeftBack = new PWMVictorSPX(Constants.MOTOR_LEFT_BACK_ID);
-  motorRightFront = new PWMVictorSPX(Constants.MOTOR_RIGHT_FRONT_ID);
-  motorRightBack = new PWMVictorSPX(Constants.MOTOR_RIGHT_BACK_ID);
+  //Shows the ID of the motors
+  motorLeftFront = new PWMVictorSPX(Constants.motorLeftFront_ID);
+  motorLeftBack = new PWMVictorSPX(Constants.motorLeftBack_ID);
+  motorRightFront = new PWMVictorSPX(Constants.motorRightFront_ID);
+  motorRightBack = new PWMVictorSPX(Constants.motorRightBack_ID);
+
+  //Shows the ID of the encoders
+  motorLeftFrontEncoder = new Encoder(Constants.motorLeftFrontEncoder_ID_A,Constants.motorLeftFrontEncoder_ID_B);
+  motorLeftBackEncoder = new Encoder(Constants.motorLeftBackEncoder_ID_A,Constants.motorLeftBackEncoder_ID_B);
+  motorRightFrontEncoder = new Encoder(Constants.motorRightFrontEncoder_ID_A,Constants.motorRightFrontEncoder_ID_B);
+  motorRightBackEncoder = new Encoder(Constants.motorRightBackEncoder_ID_A,Constants.motorRightBackEncoder_ID_B);
+
+
   //Inverts Motors For Mecanum
   motorLeftFront.setInverted(true);
   motorLeftBack.setInverted(true);
@@ -31,7 +47,6 @@ public class DriveTrain extends SubsystemBase {
   }
   public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
     mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
-
   }
   
   @Override
@@ -39,4 +54,3 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
-
