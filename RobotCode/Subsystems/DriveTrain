@@ -7,50 +7,49 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import com.kauailabs.navx.frc.AHRS;
 
 public class DriveTrain extends SubsystemBase {
 
-  public PWMVictorSPX motorLeftFront;
-  public PWMVictorSPX motorLeftBack;
-  public PWMVictorSPX motorRightFront;
-  public PWMVictorSPX motorRightBack;
+  public PWMSparkMax motorLeftFront;
+  public PWMSparkMax motorLeftBack;
+  public PWMSparkMax motorRightFront;
+  public PWMSparkMax motorRightBack;
 
-  public Encoder motorLeftFrontEncoder;
-  public Encoder motorLeftBackEncoder;
-  public Encoder motorRightFrontEncoder;
-  public Encoder motorRightBackEncoder;
+  //Nav X instantiation
+  public AHRS navX;
 
   public MecanumDrive mecanumDrive;
 
   public DriveTrain(){
   //Shows the ID of the motors
-  motorLeftFront = new PWMVictorSPX(Constants.motorLeftFront_ID);
-  motorLeftBack = new PWMVictorSPX(Constants.motorLeftBack_ID);
-  motorRightFront = new PWMVictorSPX(Constants.motorRightFront_ID);
-  motorRightBack = new PWMVictorSPX(Constants.motorRightBack_ID);
+  motorLeftFront = new PWMSparkMax(Constants.motorLeftFront_ID);
+  motorLeftBack = new PWMSparkMax(Constants.motorLeftBack_ID);
+  motorRightFront = new PWMSparkMax(Constants.motorRightFront_ID);
+  motorRightBack = new PWMSparkMax(Constants.motorRightBack_ID);
+  navX = new AHRS(Constants.navX_ID);
 
   //Shows the ID of the encoders
-  motorLeftFrontEncoder = new Encoder(Constants.motorLeftFrontEncoder_ID_A,Constants.motorLeftFrontEncoder_ID_B);
-  motorLeftBackEncoder = new Encoder(Constants.motorLeftBackEncoder_ID_A,Constants.motorLeftBackEncoder_ID_B);
-  motorRightFrontEncoder = new Encoder(Constants.motorRightFrontEncoder_ID_A,Constants.motorRightFrontEncoder_ID_B);
-  motorRightBackEncoder = new Encoder(Constants.motorRightBackEncoder_ID_A,Constants.motorRightBackEncoder_ID_B);
 
 
-  //Inverts Motors For Mecanum
+  //Inverts Motors and Encoders For Mecanum
   motorLeftFront.setInverted(true);
   motorLeftBack.setInverted(true);
-
+  
   mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
   }
   public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
+
     mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void driftControl(double leftY, double rightY){
+    
   }
 }
