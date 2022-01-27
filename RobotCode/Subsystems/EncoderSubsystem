@@ -1,0 +1,59 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import edu.wpi.first.wpilibj.Encoder;
+
+public class EncoderSubsystem extends SubsystemBase {
+  public Encoder motorLeftFrontEncoder;
+  public Encoder motorLeftBackEncoder;
+  public Encoder motorRightFrontEncoder;
+  public Encoder motorRightBackEncoder;
+  // public Encoder horizontalCaster;
+  // public Encoder leftCaster;
+  // public Encoder rightCaster;
+
+  //Encoder Rotation Initialization
+  private static final double cpr = 360;
+  private static final double whd = 6; 
+
+  /** Creates a new Encoder. */
+  public EncoderSubsystem() {
+    motorLeftFrontEncoder = new Encoder(Constants.motorLeftFrontEncoder_ID_A,Constants.motorLeftFrontEncoder_ID_B);
+    motorLeftBackEncoder = new Encoder(Constants.motorLeftBackEncoder_ID_A,Constants.motorLeftBackEncoder_ID_B);
+    motorRightFrontEncoder = new Encoder(Constants.motorRightFrontEncoder_ID_A,Constants.motorRightFrontEncoder_ID_B);
+    motorRightBackEncoder = new Encoder(Constants.motorRightBackEncoder_ID_A,Constants.motorRightBackEncoder_ID_B);
+    // horizontalCaster = new Encoder(Constants.horizontalCaster_ID_A, Constants.horizontalCaster_B);
+    // leftCaster = new Encoder(Constants.leftCaster_ID_A, Constants.leftCaster_B);
+    // rightCaster = new Encoder(Constants.rightCaster_ID_A, Constants.rightCaster_B);
+    
+    //distance per pulse is pi* (wheel diameter / counts per revolution)
+    motorLeftFrontEncoder.setDistancePerPulse(Math.PI*whd/cpr); 
+    motorLeftBackEncoder.setDistancePerPulse(Math.PI*whd/cpr);
+    motorRightFrontEncoder.setDistancePerPulse(Math.PI*whd/cpr);
+    motorRightBackEncoder.setDistancePerPulse(Math.PI*whd/cpr);
+    // horizontalCaster.setDistancePerPulse(Math.PI*whd/cpr);
+    // leftCaster.setDistancePerPulse(Math.PI*whd/cpr);
+    // rightCaster.setDistancePerPulse(Math.PI*whd/cpr);
+    
+  }
+
+  @Override
+  public void periodic() {
+    motorLeftFrontEncoder.getDistancePerPulse();
+    motorLeftBackEncoder.getDistancePerPulse();
+    motorRightFrontEncoder.getDistancePerPulse();
+    motorRightBackEncoder.getDistancePerPulse();
+    // horizontalCaster.getDistancePerPulse();
+    // leftCaster.getDistancePerPulse();
+    // rightCaster.getDistancePerPulse();
+
+  }
+
+
+}
