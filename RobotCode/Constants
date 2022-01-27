@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.SPI.Port;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -22,6 +23,7 @@ public final class Constants {
     //Driver Controller Constants
     public static final int DRIVER_CONTROLLER_1 = 0;
     public static final int DRIVER_CONTROLLER_2 = 1;
+    public static final Port navX_ID = null;
 
     public static int motorLeftFront_ID = 0;
     public static int motorLeftBack_ID = 1;
@@ -36,6 +38,12 @@ public final class Constants {
     public static int motorRightFrontEncoder_ID_B = 5;
     public static int motorRightBackEncoder_ID_A = 6;
     public static int motorRightBackEncoder_ID_B = 7;
+    // public static DigitalSource horizontalCaster_ID_A;
+    // public static DigitalSource horizontalCaster_B;
+    // public static DigitalSource leftCaster_ID_A;
+    // public static DigitalSource leftCaster_B;
+    // public static DigitalSource rightCaster_ID_A;
+    // public static DigitalSource rightCaster_B;
 
 
 }
