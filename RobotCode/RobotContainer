@@ -27,6 +27,8 @@ public class RobotContainer {
 
   //Our DriveTrain
   public static final DriveTrain driveTrain = new DriveTrain();
+  public static final EncoderSubsystem encoderSubsystem = new EncoderSubsystem();
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
