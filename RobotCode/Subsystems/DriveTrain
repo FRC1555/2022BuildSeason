@@ -1,75 +1,60 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.kauailabs.navx.frc.AHRS;
+
 import com.revrobotics.*;
 
+
 public class DriveTrain extends SubsystemBase {
-  //Motors
-  public CANSparkMax motorLeftFront;
-  public CANSparkMax motorLeftBack;
-  public CANSparkMax motorRightFront;
-  public CANSparkMax motorRightBack;
 
-  //Encoders
-  public SparkMaxRelativeEncoder motorLeftFrontEncoder;
-  public SparkMaxRelativeEncoder motorLeftBackEncoder;
-  public SparkMaxRelativeEncoder motorRightFrontEncoder;
-  public SparkMaxRelativeEncoder motorRightBackEncoder;
+   CANSparkMax motorLeftFront;
+   CANSparkMax motorLeftBack;
+   CANSparkMax motorRightFront;
+   CANSparkMax motorRightBack;
+  MecanumDrive mecanumDrive;
 
-  //Encoder Variables
-  private static final double cpr = 42;
-  private static final double whd = 6; 
-
-  public final double Tick2Inches = Math.PI*whd/cpr;
-
-  //Nav X instantiation
-  public AHRS navX;
-
-  public MecanumDrive mecanumDrive;
+    //Nav X instantiation
+    public AHRS navX;
 
   public DriveTrain(){
-  //Shows the ID of the motors
   motorLeftFront = new CANSparkMax(Constants.motorLeftFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   motorLeftBack = new CANSparkMax(Constants.motorLeftBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   motorRightFront = new CANSparkMax(Constants.motorRightFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-  motorRightBack = new CANSparkMax(Constants.motorRightBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-  
-  navX = new AHRS(Constants.navX_ID);
-  
-  //Inverts Motors and Encoders For Mecanum
+  motorRightBack = new CANSparkMax(Constants.motorRightBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);  //Inverts Motors For Mecanum
   motorLeftFront.setInverted(true);
   motorLeftBack.setInverted(true);
-  
-  //Mecanum Drive
+
+  navX = new AHRS(Constants.navX_ID);
+
   mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
   }
-  public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle){
 
-    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
+  public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
+    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+
   }
 
-  //Used for Strictly Auto
-  public void setLeftMotors(double speed){
-    motorLeftFront.set(-speed);
-    motorLeftBack.set(-speed);
-  }
+  // public void setLeftMotors(double speed){
+  //   motorLeftFront.set(-speed*0.1);
+  //   motorLeftBack.set(-speed*0.1);
+  // }
 
-  public void setRightMotors(double speed){
-    motorRightFront.set(speed);
-    motorRightBack.set(speed);
-  }
-
-  
-  
+  // public void setRightMotors(double speed){
+  //   motorRightFront.set(speed*0.1);
+  //   motorRightBack.set(speed*0.1);
+  // }
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("navx connected", navX.isConnected());
     // This method will be called once per scheduler run
+    
   }
 }
