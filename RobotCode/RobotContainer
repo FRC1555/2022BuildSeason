@@ -19,9 +19,13 @@ public class RobotContainer {
   //Our Joysticks
   public static final Joystick driverController_1 = new Joystick(Constants.DRIVER_CONTROLLER_1);
   public static final Joystick driverController_2 = new Joystick(Constants.DRIVER_CONTROLLER_2);
-
+  
   //Our DriveTrain
   public static final DriveTrain driveTrain = new DriveTrain();
+ // public final Command GyroTest = new GyroTest();
+
+  //Sendable chooser
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,7 +46,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    // m_chooser.setDefaultOption("GyroTest", GyroTest);
+    // SmartDashboard.putData(m_chooser);
+    // return m_chooser.getSelected();
+     return null;
     // An ExampleCommand will run in autonomous
 
   }
