@@ -7,15 +7,27 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.*;
 
 public class DriveTrain extends SubsystemBase {
+  //Motors
+  public CANSparkMax motorLeftFront;
+  public CANSparkMax motorLeftBack;
+  public CANSparkMax motorRightFront;
+  public CANSparkMax motorRightBack;
 
-  public PWMSparkMax motorLeftFront;
-  public PWMSparkMax motorLeftBack;
-  public PWMSparkMax motorRightFront;
-  public PWMSparkMax motorRightBack;
+  //Encoders
+  public SparkMaxRelativeEncoder motorLeftFrontEncoder;
+  public SparkMaxRelativeEncoder motorLeftBackEncoder;
+  public SparkMaxRelativeEncoder motorRightFrontEncoder;
+  public SparkMaxRelativeEncoder motorRightBackEncoder;
+
+  //Encoder Variables
+  private static final double cpr = 42;
+  private static final double whd = 6; 
+
+  public final double Tick2Inches = Math.PI*whd/cpr;
 
   //Nav X instantiation
   public AHRS navX;
@@ -24,32 +36,40 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain(){
   //Shows the ID of the motors
-  motorLeftFront = new PWMSparkMax(Constants.motorLeftFront_ID);
-  motorLeftBack = new PWMSparkMax(Constants.motorLeftBack_ID);
-  motorRightFront = new PWMSparkMax(Constants.motorRightFront_ID);
-  motorRightBack = new PWMSparkMax(Constants.motorRightBack_ID);
+  motorLeftFront = new CANSparkMax(Constants.motorLeftFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+  motorLeftBack = new CANSparkMax(Constants.motorLeftBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+  motorRightFront = new CANSparkMax(Constants.motorRightFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+  motorRightBack = new CANSparkMax(Constants.motorRightBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+  
   navX = new AHRS(Constants.navX_ID);
-
-  //Shows the ID of the encoders
-
-
+  
   //Inverts Motors and Encoders For Mecanum
   motorLeftFront.setInverted(true);
   motorLeftBack.setInverted(true);
   
+  //Mecanum Drive
   mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
   }
-  public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
+  public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double gyroAngle){
 
-    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
   }
+
+  //Used for Strictly Auto
+  public void setLeftMotors(double speed){
+    motorLeftFront.set(-speed);
+    motorLeftBack.set(-speed);
+  }
+
+  public void setRightMotors(double speed){
+    motorRightFront.set(speed);
+    motorRightBack.set(speed);
+  }
+
+  
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-
-  public void driftControl(double leftY, double rightY){
-    
   }
 }
