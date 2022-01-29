@@ -6,37 +6,51 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import edu.wpi.first.wpilibj.Encoder;
+import com.revrobotics.*;
 
 public class EncoderSubsystem extends SubsystemBase {
-  public Encoder motorLeftFrontEncoder;
-  public Encoder motorLeftBackEncoder;
-  public Encoder motorRightFrontEncoder;
-  public Encoder motorRightBackEncoder;
-  // public Encoder horizontalCaster;
-  // public Encoder leftCaster;
-  // public Encoder rightCaster;
+  public SparkMaxRelativeEncoder motorLeftFrontEncoder;
+  public SparkMaxRelativeEncoder motorLeftBackEncoder;
+  public SparkMaxRelativeEncoder motorRightFrontEncoder;
+  public SparkMaxRelativeEncoder motorRightBackEncoder;
+  // public SparkMaxRelativeEncoder horizontalCaster;
+  // public SparkMaxRelativeEncoder leftCaster;
+  // public SparkMaxRelativeEncoder rightCaster;
 
-  //Encoder Rotation Initialization
+  
+  
+  
+  
+  //IF YOU USE ENCODER, JUST DO <Motor>.getEncoder();
+
+
+
+
+
+
+
+
+
+
+  //SparkMaxRelativeEncoder Rotation Initialization
   private static final double cpr = 360;
   private static final double whd = 6; 
-
-  /** Creates a new Encoder. */
+  //public SparkMaxRelativeEncoder kHallSensor;
+  /** Creates a new SparkMaxRelativeEncoder. */
   public EncoderSubsystem() {
-    motorLeftFrontEncoder = new Encoder(Constants.motorLeftFrontEncoder_ID_A,Constants.motorLeftFrontEncoder_ID_B);
-    motorLeftBackEncoder = new Encoder(Constants.motorLeftBackEncoder_ID_A,Constants.motorLeftBackEncoder_ID_B);
-    motorRightFrontEncoder = new Encoder(Constants.motorRightFrontEncoder_ID_A,Constants.motorRightFrontEncoder_ID_B);
-    motorRightBackEncoder = new Encoder(Constants.motorRightBackEncoder_ID_A,Constants.motorRightBackEncoder_ID_B);
-    // horizontalCaster = new Encoder(Constants.horizontalCaster_ID_A, Constants.horizontalCaster_B);
-    // leftCaster = new Encoder(Constants.leftCaster_ID_A, Constants.leftCaster_B);
-    // rightCaster = new Encoder(Constants.rightCaster_ID_A, Constants.rightCaster_B);
+    // motorLeftFrontEncoder = new SparkMaxRelativeEncoder(Type(1), Constants.motorLeftFrontEncoder_ID_A);
+    // motorLeftBackEncoder = new SparkMaxRelativeEncoder(Type(1), Constants.motorLeftBackEncoder_ID_A);
+    // motorRightFrontEncoder = new SparkMaxRelativeEncoder(Type(1), Constants.motorRightFrontEncoder_ID_A);
+    // motorRightBackEncoder = new SparkMaxRelativeEncoder(Type(1), Constants.motorRightBackEncoder_ID_A);
+    // horizontalCaster = new SparkMaxRelativeEncoder(Constants.horizontalCaster_ID_A, Constants.horizontalCaster_B);
+    // leftCaster = new SparkMaxRelativeEncoder(Constants.leftCaster_ID_A, Constants.leftCaster_B);
+    // rightCaster = new SparkMaxRelativeEncoder(Constants.rightCaster_ID_A, Constants.rightCaster_B);
     
     //distance per pulse is pi* (wheel diameter / counts per revolution)
-    motorLeftFrontEncoder.setDistancePerPulse(Math.PI*whd/cpr); 
-    motorLeftBackEncoder.setDistancePerPulse(Math.PI*whd/cpr);
-    motorRightFrontEncoder.setDistancePerPulse(Math.PI*whd/cpr);
-    motorRightBackEncoder.setDistancePerPulse(Math.PI*whd/cpr);
+    // motorLeftFrontEncoder.setDistancePerPulse(Math.PI*whd/cpr); 
+    // motorLeftBackEncoder.setDistancePerPulse(Math.PI*whd/cpr);
+    // motorRightFrontEncoder.setDistancePerPulse(Math.PI*whd/cpr);
+    // motorRightBackEncoder.setDistancePerPulse(Math.PI*whd/cpr);
     // horizontalCaster.setDistancePerPulse(Math.PI*whd/cpr);
     // leftCaster.setDistancePerPulse(Math.PI*whd/cpr);
     // rightCaster.setDistancePerPulse(Math.PI*whd/cpr);
@@ -45,10 +59,10 @@ public class EncoderSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    motorLeftFrontEncoder.getDistancePerPulse();
-    motorLeftBackEncoder.getDistancePerPulse();
-    motorRightFrontEncoder.getDistancePerPulse();
-    motorRightBackEncoder.getDistancePerPulse();
+    // motorLeftFrontEncoder.getDistancePerPulse();
+    // motorLeftBackEncoder.getDistancePerPulse();
+    // motorRightFrontEncoder.getDistancePerPulse();
+    // motorRightBackEncoder.getDistancePerPulse();
     // horizontalCaster.getDistancePerPulse();
     // leftCaster.getDistancePerPulse();
     // rightCaster.getDistancePerPulse();
@@ -57,3 +71,4 @@ public class EncoderSubsystem extends SubsystemBase {
 
 
 }
+
