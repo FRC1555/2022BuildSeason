@@ -25,20 +25,20 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER_2 = 1;
     public static final Port navX_ID = null;
 
-    public static int motorLeftFront_ID = 0;
-    public static int motorLeftBack_ID = 1;
-    public static int motorRightFront_ID = 2;
-    public static int motorRightBack_ID = 3;
+    public static int motorLeftFront_ID = 4;
+    public static int motorLeftBack_ID = 5;
+    public static int motorRightFront_ID = 3;
+    public static int motorRightBack_ID = 2;
 
-    public static int motorLeftFrontEncoder_ID_A = 0;
-    public static int motorLeftFrontEncoder_ID_B = 1;
-    public static int motorLeftBackEncoder_ID_A = 2;
-    public static int motorLeftBackEncoder_ID_B = 3;
-    public static int motorRightFrontEncoder_ID_A = 4;
-    public static int motorRightFrontEncoder_ID_B = 5;
-    public static int motorRightBackEncoder_ID_A = 6;
-    public static int motorRightBackEncoder_ID_B = 7;
-    // public static DigitalSource horizontalCaster_ID_A;
+    // public static int motorLeftFrontEncoder_ID_A = 0;
+    // public static int motorLeftFrontEncoder_ID_B = 1;
+    // public static int motorLeftBackEncoder_ID_A = 2;
+    // public static int motorLeftBackEncoder_ID_B = 3;
+    // public static int motorRightFrontEncoder_ID_A = 4;
+    // public static int motorRightFrontEncoder_ID_B = 5;
+    // public static int motorRightBackEncoder_ID_A = 6;
+    // public static int motorRightBackEncoder_ID_B = 7;
+    // // public static DigitalSource horizontalCaster_ID_A;
     // public static DigitalSource horizontalCaster_B;
     // public static DigitalSource leftCaster_ID_A;
     // public static DigitalSource leftCaster_B;
