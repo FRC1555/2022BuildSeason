@@ -28,6 +28,7 @@ public class RobotContainer {
   //Our DriveTrain
   public static final DriveTrain driveTrain = new DriveTrain();
   public static final EncoderSubsystem encoderSubsystem = new EncoderSubsystem();
+  public static final Gyro_Test gyroTest= new Gyro_Test();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -53,10 +54,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return gyroTest;
     // An ExampleCommand will run in autonomous
 
   }
 
 }
-
