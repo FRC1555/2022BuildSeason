@@ -1,0 +1,94 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import java.lang.Math;
+
+
+public class Gyro_Test extends CommandBase {
+  /** Creates a new Gyro_Test. */
+   // Variable Declarations
+ double leftSlow = 0.24;
+ double rightSlow = -0.24;
+ double rotateSpeed = 0.35;
+ double rotateSpeedSlow = 0.25;
+ double gyro = RobotContainer.driveTrain.navX.getAngle();
+
+
+  public Gyro_Test() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.driveTrain);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    RobotContainer.driveTrain.navX.reset();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+
+    if (Math.abs(gyro) <= 3) {
+   RobotContainer.driveTrain.setLeftMotors(leftSlow - (gyro) / 15);
+   RobotContainer.driveTrain.setRightMotors(rightSlow - (gyro) / 15);
+  } else if (Math.abs(gyro) < 10) {
+   if (gyro > 0) {
+    RobotContainer.driveTrain.setLeftMotors(leftSlow);
+    RobotContainer.driveTrain.setRightMotors(1.1 * rightSlow);
+   } else if (gyro < 0) {
+    RobotContainer.driveTrain.setLeftMotors(1.1 * leftSlow);
+    RobotContainer.driveTrain.setRightMotors(rightSlow);
+   }
+  } else
+   if (gyro > 0) {
+    while (gyro > 10) {
+     RobotContainer.driveTrain.setLeftMotors(-rotateSpeed);
+     RobotContainer.driveTrain.setRightMotors(-rotateSpeed);
+    }
+   while (gyro > 0) {
+    RobotContainer.driveTrain.setLeftMotors(-rotateSpeedSlow);
+    RobotContainer.driveTrain.setRightMotors(-rotateSpeedSlow);
+   }
+   while (gyro < 0) {
+    RobotContainer.driveTrain.setLeftMotors(rotateSpeedSlow);
+    RobotContainer.driveTrain.setRightMotors(rotateSpeedSlow);
+   }
+  } else {
+   while (gyro < -10) {
+    RobotContainer.driveTrain.setLeftMotors(rotateSpeed);
+    RobotContainer.driveTrain.setRightMotors(rotateSpeed);
+   }
+   while (gyro < 0) {
+    RobotContainer.driveTrain.setLeftMotors(rotateSpeedSlow);
+    RobotContainer.driveTrain.setRightMotors(rotateSpeedSlow);
+   }
+   while (gyro > 0) {
+    RobotContainer.driveTrain.setLeftMotors(-rotateSpeedSlow);
+    RobotContainer.driveTrain.setRightMotors(-rotateSpeedSlow);
+   }
+  }
+ }
+
+  
+
+
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    RobotContainer.driveTrain.setLeftMotors(0);
+    RobotContainer.driveTrain.setRightMotors(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
