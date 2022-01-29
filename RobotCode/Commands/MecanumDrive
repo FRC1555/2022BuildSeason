@@ -24,23 +24,24 @@ public class MecDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Angle
+    double gyroAngle = RobotContainer.driveTrain.navX.getAngle();
+
     
-    double leftStickY = 0.5 * RobotContainer.driverController_1.getY();
-    double rightStickY = 0.5 * RobotContainer.driverController_2.getY();
-    double leftStickX = 0.5 * RobotContainer.driverController_1.getX();
-    double rightStickX = 0.5 * RobotContainer.driverController_2.getX();
-   
-    // RobotContainer.driveTrain.setLeftMotors(leftStickY);
-    // RobotContainer.driveTrain.setRightMotors(-rightStickY);
-    //RobotContainer.driveTrain.mecanumDrive(leftStickX);
-    //RobotContainer.driveTrain.mecanumDrive(-rightStickX);
-    RobotContainer.driveTrain.mecanumDrive(leftStickY, -leftStickX, -rightStickX);
+    double leftStickY = RobotContainer.driverController_1.getY();
+    //double rightStickY = RobotContainer.driverController_2.getY();
+    double leftStickX = RobotContainer.driverController_1.getX();
+    double rightStickX = RobotContainer.driverController_2.getX();
+
+  
+    
+    RobotContainer.driveTrain.mecanumDrive(leftStickY, -leftStickX, -rightStickX, gyroAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.driveTrain.mecanumDrive(0,0,0);
+    RobotContainer.driveTrain.mecanumDrive(0,0,0,0);
   }
 
   // Returns true when the command should end.
