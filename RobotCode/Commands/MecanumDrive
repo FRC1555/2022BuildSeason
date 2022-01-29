@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 
 public class MecDrive extends CommandBase {
 
-  public static final double speedLimit = 0.4;
+  //public static final double = 1;
   /** Creates a new MecDrive. */
   public MecDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,7 +25,7 @@ public class MecDrive extends CommandBase {
   @Override
   public void execute() {
     //Angle
-    double gyroAngle = RobotContainer.driveTrain.navX.getAngle();
+    //double gyroAngle = RobotContainer.driveTrain.navX.getAngle();
 
     
     double leftStickY = RobotContainer.driverController_1.getY();
@@ -33,15 +33,25 @@ public class MecDrive extends CommandBase {
     double leftStickX = RobotContainer.driverController_1.getX();
     double rightStickX = RobotContainer.driverController_2.getX();
 
-  
+    if(rightStickX < 0.05 && rightStickX > -0.05){
+      rightStickX = 0;
+    }
+    if(leftStickY <0.05 && leftStickY > -0.05){
+      leftStickY = 0;
+    }
+    if(leftStickX <0.05 && leftStickX > -0.05){
+      leftStickX = 0;
+    }
+
     
-    RobotContainer.driveTrain.mecanumDrive(leftStickY, -leftStickX, -rightStickX, gyroAngle);
+    RobotContainer.driveTrain.mecanumDrive(leftStickY, -leftStickX, -rightStickX);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.driveTrain.mecanumDrive(0,0,0,0);
+    RobotContainer.driveTrain.mecanumDrive(0,0,0);
   }
 
   // Returns true when the command should end.
