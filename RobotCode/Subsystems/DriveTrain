@@ -3,32 +3,44 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.*;
+
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.kauailabs.navx.frc.AHRS;
-
-import com.revrobotics.*;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class DriveTrain extends SubsystemBase {
 
-   CANSparkMax motorLeftFront;
-   CANSparkMax motorLeftBack;
-   CANSparkMax motorRightFront;
-   CANSparkMax motorRightBack;
+  CANSparkMax motorLeftFront;
+  CANSparkMax motorLeftBack;
+  CANSparkMax motorRightFront;
+  CANSparkMax motorRightBack;
+  public RelativeEncoder motorLeftFrontEncoder;
+  public RelativeEncoder motorLeftBackEncoder;
+  public RelativeEncoder motorRightFrontEncoder;
+  public RelativeEncoder motorRightBackEncoder;
   MecanumDrive mecanumDrive;
 
     //Nav X instantiation
     public AHRS navX;
 
   public DriveTrain(){
+  //Motor Instantiation
+  motorRightBack = new CANSparkMax(Constants.motorRightBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless); 
+  motorRightFront = new CANSparkMax(Constants.motorRightFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   motorLeftFront = new CANSparkMax(Constants.motorLeftFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   motorLeftBack = new CANSparkMax(Constants.motorLeftBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-  motorRightFront = new CANSparkMax(Constants.motorRightFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-  motorRightBack = new CANSparkMax(Constants.motorRightBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);  //Inverts Motors For Mecanum
+  //Encoder Instantiation
+  motorRightBackEncoder = motorRightBack.getEncoder();
+  motorRightFrontEncoder = motorRightFront.getEncoder();
+  motorLeftFrontEncoder = motorLeftFront.getEncoder();
+  motorLeftBackEncoder = motorLeftBack.getEncoder();
+  
+  
+  //Inverts Motors For Mecanum
   motorLeftFront.setInverted(true);
   motorLeftBack.setInverted(true);
 
@@ -42,15 +54,15 @@ public class DriveTrain extends SubsystemBase {
 
   }
 
-  // public void setLeftMotors(double speed){
-  //   motorLeftFront.set(-speed*0.1);
-  //   motorLeftBack.set(-speed*0.1);
-  // }
+  public void setLeftMotors(double speed){
+    motorLeftFront.set(-speed*0.1);
+    motorLeftBack.set(-speed*0.1);
+  }
 
-  // public void setRightMotors(double speed){
-  //   motorRightFront.set(speed*0.1);
-  //   motorRightBack.set(speed*0.1);
-  // }
+  public void setRightMotors(double speed){
+    motorRightFront.set(speed*0.1);
+    motorRightBack.set(speed*0.1);
+  }
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("navx connected", navX.isConnected());
