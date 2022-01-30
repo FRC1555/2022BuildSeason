@@ -43,11 +43,17 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Get Angle (Turning Left and Right)", robotContainer.driveTrain.navX.getAngle());
-    //Flipped
-    SmartDashboard.putNumber("Get Yaw (Rocking Forward and Back)", -robotContainer.driveTrain.navX.getRoll());
-    SmartDashboard.putNumber("Get Pitch (Rotate Side to Side)", -robotContainer.driveTrain.navX.getPitch());
-    SmartDashboard.putNumber("Get Distance", robotContainer.driveTrain.navX.getDisplacementX());
+    //Clockwise = Positive; Counter Clockwise = Negative
+    SmartDashboard.putNumber("Get Angle (Turning Left and Right)", RobotContainer.driveTrain.navX.getAngle());
+    //Nose Up = Positive; Nose Down = Negative
+    SmartDashboard.putNumber("Get Yaw (Rocking Forward and Back)", -RobotContainer.driveTrain.navX.getRoll());
+    //Pitch Right = Positive; Pitch Left = Negative
+    SmartDashboard.putNumber("Get Pitch (Rotate Side to Side)", -RobotContainer.driveTrain.navX.getPitch());
+    //Encoder Values
+    SmartDashboard.putNumber("BackRightEncoder", -RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition());    
+    SmartDashboard.putNumber("FrontRightEncoder", -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition());
+    SmartDashboard.putNumber("FrontLeftEncoder", RobotContainer.driveTrain.motorRightFrontEncoder.getPosition());
+    SmartDashboard.putNumber("BackRightEncoder", RobotContainer.driveTrain.motorRightBackEncoder.getPosition());
   }
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
@@ -86,4 +92,3 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 }
-
