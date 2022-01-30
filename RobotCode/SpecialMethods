@@ -1,0 +1,56 @@
+package frc.robot;
+
+import frc.robot.RobotContainer;
+import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.*;
+
+public class SpecialMethods {
+    private static final double cpr = 42;
+    private static final double whd = 6; 
+    public static final double Tick2Inches = Math.PI*whd/cpr;
+
+    public static void CoordinateWizard(double X1, double Y1, double X2, double Y2){
+        double calculateMoveDistanceX = Math.abs(X2-X1);
+        double calculateMoveDistanceY = Math.abs(Y2-Y1);
+
+        double tangentTheta = Math.atan(calculateMoveDistanceX/calculateMoveDistanceY);
+        double moveDistance = Math.sqrt(Math.pow(calculateMoveDistanceX,2) + Math.pow(calculateMoveDistanceY,2));
+        double moveInTicks = moveDistance*Tick2Inches;
+        //Has to be flipped since according to the robot Counterclockwise is positive and Clockwise is negative
+        double robotTheta = -RobotContainer.driveTrain.navX.getAngle();
+
+        while (robotTheta != tangentTheta){
+            /*Divided by two since both motors are going to
+            be moving at the same time*/
+            if(tangentTheta > 0){
+                
+                RobotContainer.driveTrain.setLeftMotors(-0.25);
+                RobotContainer.driveTrain.setRightMotors(0.25);
+            }
+            if(tangentTheta < 0){
+                RobotContainer.driveTrain.setLeftMotors(0.25);
+                RobotContainer.driveTrain.setRightMotors(-0.25);
+            }
+            else{
+                RobotContainer.driveTrain.setLeftMotors(0);
+                RobotContainer.driveTrain.setRightMotors(0);
+            }
+        }
+
+        while (-RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition() <= moveInTicks &&
+        -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition() <= moveInTicks &&
+        RobotContainer.driveTrain.motorRightFrontEncoder.getPosition() <= moveInTicks &&
+        RobotContainer.driveTrain.motorRightBackEncoder.getPosition()<= moveInTicks){
+
+            RobotContainer.driveTrain.setLeftMotors(0.5);
+            RobotContainer.driveTrain.setRightMotors(0.5);
+        }
+    RobotContainer.driveTrain.motorLeftFrontEncoder.setPosition(0);
+    RobotContainer.driveTrain.motorLeftBackEncoder.setPosition(0);
+    RobotContainer.driveTrain.motorRightFrontEncoder.setPosition(0);
+    RobotContainer.driveTrain.motorRightBackEncoder.setPosition(0);
+        
+    }
+
+    
+}
