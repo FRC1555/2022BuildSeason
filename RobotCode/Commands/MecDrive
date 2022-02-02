@@ -43,7 +43,6 @@ public class MecDrive extends CommandBase {
     }
 
     RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, -leftStickX * speedLimit, -rightStickX * speedLimit);
-    
   }
 
   // Called once the command ends or is interrupted.
@@ -58,4 +57,3 @@ public class MecDrive extends CommandBase {
     return false;
   }
 }
-
