@@ -43,6 +43,8 @@ public class DriveTrain extends SubsystemBase {
   //Inverts Motors For Mecanum
   motorLeftFront.setInverted(true);
   motorLeftBack.setInverted(true);
+  motorRightFront.setInverted(false);
+  motorRightBack.setInverted(false);
 
   navX = new AHRS(Constants.navX_ID);
 
@@ -51,17 +53,16 @@ public class DriveTrain extends SubsystemBase {
 
   public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
     mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
-
   }
 
   public void setLeftMotors(double speed){
-    motorLeftFront.set(-speed*0.1);
-    motorLeftBack.set(-speed*0.1);
+    motorLeftFront.set(-speed*0.15);
+    motorLeftBack.set(-speed*0.15);
   }
 
   public void setRightMotors(double speed){
-    motorRightFront.set(speed*0.1);
-    motorRightBack.set(speed*0.1);
+    motorRightFront.set(speed*0.15);
+    motorRightBack.set(speed*0.15);
   }
   @Override
   public void periodic() {
