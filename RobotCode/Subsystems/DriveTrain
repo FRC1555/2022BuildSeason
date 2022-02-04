@@ -24,8 +24,8 @@ public class DriveTrain extends SubsystemBase {
   public RelativeEncoder motorRightBackEncoder;
   MecanumDrive mecanumDrive;
 
-    //Nav X instantiation
-    public AHRS navX;
+  //Nav X instantiation
+  public AHRS navX;
 
   public DriveTrain(){
   //Motor Instantiation
@@ -50,24 +50,24 @@ public class DriveTrain extends SubsystemBase {
 
   mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
   }
-
+  //Used for Telecommunicated Operations (TeleOP)
   public void mecanumDrive(double ySpeed, double xSpeed, double zRotation){
     mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
 
+  //Used for Autonomous
   public void setLeftMotors(double speed){
-    motorLeftFront.set(-speed*0.15);
-    motorLeftBack.set(-speed*0.15);
+    motorLeftFront.set(-speed);
+    motorLeftBack.set(-speed);
   }
-
   public void setRightMotors(double speed){
-    motorRightFront.set(speed*0.15);
-    motorRightBack.set(speed*0.15);
+    motorRightFront.set(speed);
+    motorRightBack.set(speed);
   }
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("navx connected", navX.isConnected());
     // This method will be called once per scheduler run
-    
   }
 }
+
