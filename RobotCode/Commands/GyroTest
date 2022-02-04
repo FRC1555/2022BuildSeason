@@ -5,76 +5,58 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+ import frc.robot.RobotContainer;
+import frc.robot.SpecialMethods;
 
 
-public class MecDrive extends CommandBase {
+public class GyroTest extends CommandBase {
+   /** Creates a new GyroTest. */
+    // Variable Declarations
+  double slow = 0.15;
 
-  public static final double speedLimit = 0.4;
-  /** Creates a new MecDrive. */
-  public MecDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.driveTrain);
+
+  public GyroTest() {
+     // Use addRequirements() here to declare subsystem dependencies.
+     addRequirements(RobotContainer.driveTrain);
   }
 
-  // Called when the command is initially scheduled.
+   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    RobotContainer.driveTrain.navX.reset();
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
+   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Angle
-    //double gyroAngle = RobotContainer.driveTrain.navX.getAngle();
-    double leftStickY = RobotContainer.driverController_1.getY();
-    //double rightStickY = RobotContainer.driverController_2.getY();
-    double leftStickX = RobotContainer.driverController_1.getX();
-    double rightStickX = RobotContainer.driverController_2.getX();
-
-    //Manual Deadzone
-    if(rightStickX < 0.05 && rightStickX > -0.05){
-      rightStickX = 0;
-    }
-    if(leftStickY < 0.05 && leftStickY > -0.05){
-      leftStickY = 0;
-    }
-    if(leftStickX < 0.05 && leftStickX > -0.05){
-      leftStickX = 0;
-    }
-
-    RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, -leftStickX * speedLimit, -rightStickX * speedLimit);
+    double gyro =  - RobotContainer.driveTrain.navX.getAngle();
     
+    //Custom deadband necessary since you can never have a perfect angle. 
+    while(gyro <= -5 || gyro >= 5) {
+      gyro =  RobotContainer.driveTrain.navX.getAngle();
+      //Turns Right
+      if (gyro <= 5) {
+        RobotContainer.driveTrain.setLeftMotors(slow);
+      }
+      //Turns Left
+      if (gyro >= -5){
+        RobotContainer.driveTrain.setRightMotors(slow);
+       }
+    }
 
-    
-  }
-
-  // Called once the command ends or is interrupted.
+    RobotContainer.driveTrain.setLeftMotors(slow);
+    RobotContainer.driveTrain.setRightMotors(slow);
+   }
+   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.driveTrain.mecanumDrive(0,0,0);
+    SpecialMethods.ResetEverything();
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-}
-
   
-
-
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    RobotContainer.driveTrain.setLeftMotors(0);
-    RobotContainer.driveTrain.setRightMotors(0);
-  }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+     return false;
   }
 }
+
