@@ -2,7 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
-import frc.robot.*;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,11 +46,13 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    //Clockwise = Positive; Counter Clockwise = Negative
+    //Clockwise = Negative; Counter Clockwise = Positive
     SmartDashboard.putNumber("Get Angle (Turning Left and Right)", RobotContainer.driveTrain.navX.getAngle());
     //Nose Up = Positive; Nose Down = Negative
+    //Note, the NavX is oriented Incorrectly
     SmartDashboard.putNumber("Get Yaw (Rocking Forward and Back)", -RobotContainer.driveTrain.navX.getRoll());
     //Pitch Right = Positive; Pitch Left = Negative
+    //Note, the NavX is oriented Incorrectly
     SmartDashboard.putNumber("Get Pitch (Rotate Side to Side)", -RobotContainer.driveTrain.navX.getPitch());
     //Encoder Values
     SmartDashboard.putNumber("LeftFrontEncoder", -RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition());    
