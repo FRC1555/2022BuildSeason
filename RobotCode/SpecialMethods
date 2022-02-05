@@ -7,7 +7,7 @@ public class SpecialMethods {
     public static final double Tick2Inches = Math.PI*whd/cpr;
     public static final double slow = 0.1;
 
-    public static void ResetEverything(){
+    public static void UniversalReset(){
         RobotContainer.driveTrain.navX.reset();
         RobotContainer.driveTrain.setLeftMotors(0);
         RobotContainer.driveTrain.setRightMotors(0);  
@@ -28,27 +28,26 @@ public class SpecialMethods {
         double moveInTicks = moveDistance*Tick2Inches;
 
         double robotTheta = RobotContainer.driveTrain.navX.getAngle();
-
         //Custom deadbands necessary since you can never have a perfect angle. 
-
         //If Coordinate is to the right of the robot
-        while (robotTheta > tangentTheta + 5 || robotTheta > tangentTheta -5){
-            robotTheta = RobotContainer.driveTrain.navX.getAngle();
-            RobotContainer.driveTrain.setLeftMotors(slow);
-            RobotContainer.driveTrain.setRightMotors(-slow);    
+        if (robotTheta > tangentTheta){
+            while (robotTheta > tangentTheta + 5 || robotTheta > tangentTheta -5){
+                robotTheta = RobotContainer.driveTrain.navX.getAngle();
+                RobotContainer.driveTrain.setLeftMotors(slow);
+                RobotContainer.driveTrain.setRightMotors(-slow);    
+            }
         }
-
         //If Coordinate is to the left of the robot
-        while (robotTheta < tangentTheta + 5 || robotTheta < tangentTheta -5){
-            robotTheta = RobotContainer.driveTrain.navX.getAngle();
-            RobotContainer.driveTrain.setLeftMotors(-slow);
-            RobotContainer.driveTrain.setRightMotors(slow);  
+        if (robotTheta < tangentTheta){
+            while (robotTheta < tangentTheta + 5 || robotTheta < tangentTheta -5){
+                robotTheta = RobotContainer.driveTrain.navX.getAngle();
+                RobotContainer.driveTrain.setLeftMotors(-slow);
+                RobotContainer.driveTrain.setRightMotors(slow);  
+            }
         }
-
         RobotContainer.driveTrain.setLeftMotors(0);
         RobotContainer.driveTrain.setRightMotors(0);  
-
-
+        //Distance
         while (-RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition() < moveInTicks &&
         -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition() < moveInTicks &&
         RobotContainer.driveTrain.motorRightFrontEncoder.getPosition() < moveInTicks &&
@@ -57,6 +56,24 @@ public class SpecialMethods {
         RobotContainer.driveTrain.setLeftMotors(0.5);
         RobotContainer.driveTrain.setRightMotors(0.5);
         }     
+    }
+
+    public static void GyroCorrection(){
+        double gyro =  - RobotContainer.driveTrain.navX.getAngle();
+    
+        //Custom deadband necessary since you can never have a perfect angle. 
+        while(gyro <= -5 || gyro >= 5) {
+            
+            gyro =  RobotContainer.driveTrain.navX.getAngle();
+            //Turns Right
+            if (gyro <= 5) {
+            RobotContainer.driveTrain.setLeftMotors(slow);
+            }
+            //Turns Left
+             if (gyro >= -5){
+            RobotContainer.driveTrain.setRightMotors(slow);
+       }
+    }
     }
 }
 
