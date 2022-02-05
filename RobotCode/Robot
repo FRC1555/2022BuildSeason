@@ -48,12 +48,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     //Clockwise = Negative; Counter Clockwise = Positive
     SmartDashboard.putNumber("Get Angle (Turning Left and Right)", RobotContainer.driveTrain.navX.getAngle());
+    //Roll Right = Positive; Roll Left = Negative    
+    SmartDashboard.putNumber("Get Roll (Rolling Left or Right", RobotContainer.driveTrain.navX.getRoll());
     //Nose Up = Positive; Nose Down = Negative
-    //Note, the NavX is oriented Incorrectly
-    SmartDashboard.putNumber("Get Yaw (Rocking Forward and Back)", -RobotContainer.driveTrain.navX.getRoll());
-    //Pitch Right = Positive; Pitch Left = Negative
-    //Note, the NavX is oriented Incorrectly
-    SmartDashboard.putNumber("Get Pitch (Rotate Side to Side)", -RobotContainer.driveTrain.navX.getPitch());
+    SmartDashboard.putNumber("Get Pitch (Nose Up or Down)", -RobotContainer.driveTrain.navX.getPitch());
     //Encoder Values
     SmartDashboard.putNumber("LeftFrontEncoder", -RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition());    
     SmartDashboard.putNumber("LeftBackEncoder", -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition());
