@@ -19,9 +19,10 @@ public class SpecialMethods {
 
     public static void CoordinateWizard(double X1, double Y1, double X2, double Y2){
         //Angle Calculations
-        double calculateMoveDistanceX = Math.abs(X2-X1);
-        double calculateMoveDistanceY = Math.abs(Y2-Y1);
+        double calculateMoveDistanceX = (X2-X1);
+        double calculateMoveDistanceY = (Y2-Y1);
         double tangentTheta = Math.atan(calculateMoveDistanceX/calculateMoveDistanceY);
+        double tangentThetaRadians = Math.toDegrees(tangentTheta);
 
         //Distance Calculation using Trigonometric Distance Formula
         double moveDistance = Math.sqrt(Math.pow(calculateMoveDistanceX,2) + Math.pow(calculateMoveDistanceY,2));
@@ -30,21 +31,22 @@ public class SpecialMethods {
         double robotTheta = RobotContainer.driveTrain.navX.getAngle();
         //Custom deadbands necessary since you can never have a perfect angle. 
         //If Coordinate is to the right of the robot
-        if (robotTheta > tangentTheta){
-            while (robotTheta > tangentTheta + 5 || robotTheta > tangentTheta -5){
+        if (robotTheta < tangentThetaRadians){
+            while (robotTheta < tangentThetaRadians -5){
                 robotTheta = RobotContainer.driveTrain.navX.getAngle();
                 RobotContainer.driveTrain.setLeftMotors(slow);
                 RobotContainer.driveTrain.setRightMotors(-slow);    
             }
         }
         //If Coordinate is to the left of the robot
-        if (robotTheta < tangentTheta){
-            while (robotTheta < tangentTheta + 5 || robotTheta < tangentTheta -5){
+        if (robotTheta > tangentThetaRadians){
+            while (robotTheta > tangentThetaRadians + 5){
                 robotTheta = RobotContainer.driveTrain.navX.getAngle();
                 RobotContainer.driveTrain.setLeftMotors(-slow);
                 RobotContainer.driveTrain.setRightMotors(slow);  
             }
         }
+
         RobotContainer.driveTrain.setLeftMotors(0);
         RobotContainer.driveTrain.setRightMotors(0);  
         //Distance
@@ -53,8 +55,8 @@ public class SpecialMethods {
         RobotContainer.driveTrain.motorRightFrontEncoder.getPosition() < moveInTicks &&
         RobotContainer.driveTrain.motorRightBackEncoder.getPosition()< moveInTicks){
 
-        RobotContainer.driveTrain.setLeftMotors(0.5);
-        RobotContainer.driveTrain.setRightMotors(0.5);
+        RobotContainer.driveTrain.setLeftMotors(slow);
+        RobotContainer.driveTrain.setRightMotors(slow);
         }     
     }
 
