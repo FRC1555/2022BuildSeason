@@ -72,8 +72,8 @@ public class SpecialMethods {
             //Turns Left
              if (gyro >= -5){
             RobotContainer.driveTrain.setRightMotors(slow);
-       }
-    }
+            }
+        }
     }
 }
 
