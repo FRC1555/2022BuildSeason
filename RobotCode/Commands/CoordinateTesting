@@ -1,24 +1,35 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.SpecialMethods;
 
 public class CoordinateTesting extends CommandBase {
   /** Creates a new CoordinateTesting. */
   public CoordinateTesting() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.driveTrain);
   }
-
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    SpecialMethods.UniversalReset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    SpecialMethods.CoordinateWizard(0,0,120,120);
+
+    SpecialMethods.AutoReset();
+
+    SpecialMethods.CoordinateWizard(120,120,0,240);
+
+    SpecialMethods.AutoReset();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
