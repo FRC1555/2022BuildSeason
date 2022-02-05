@@ -44,10 +44,10 @@ public class GyroTest extends CommandBase {
         RobotContainer.driveTrain.setRightMotors(slow);
        }
     }
-
+    //Keep robot moving
     RobotContainer.driveTrain.setLeftMotors(slow);
     RobotContainer.driveTrain.setRightMotors(slow);
-   }
+  }
    // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
