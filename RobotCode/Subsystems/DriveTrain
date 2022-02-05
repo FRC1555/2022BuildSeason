@@ -41,10 +41,10 @@ public class DriveTrain extends SubsystemBase {
   
   
   //Inverts Motors For Mecanum
-  motorLeftFront.setInverted(true);
-  motorLeftBack.setInverted(true);
-  motorRightFront.setInverted(false);
-  motorRightBack.setInverted(false);
+  motorLeftFront.setInverted(false);
+  motorLeftBack.setInverted(false);
+  motorRightFront.setInverted(true);
+  motorRightBack.setInverted(true);
 
   navX = new AHRS(Constants.navX_ID);
 
@@ -57,8 +57,8 @@ public class DriveTrain extends SubsystemBase {
 
   //Used for Autonomous
   public void setLeftMotors(double speed){
-    motorLeftFront.set(-speed);
-    motorLeftBack.set(-speed);
+    motorLeftFront.set(speed);
+    motorLeftBack.set(speed);
   }
   public void setRightMotors(double speed){
     motorRightFront.set(speed);
@@ -70,4 +70,3 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
-
