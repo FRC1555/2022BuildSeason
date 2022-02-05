@@ -25,6 +25,7 @@ public class RobotContainer {
   //Our DriveTrain
   public static final DriveTrain driveTrain = new DriveTrain();
   public final Command GyroTest = new GyroTest();
+  public final Command CoordinateTesting = new CoordinateTesting();
 
   //Sendable chooser
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -49,10 +50,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //Runs the Autonomous
-    m_chooser.setDefaultOption("GyroTest", GyroTest);
+    m_chooser.setDefaultOption("CoordinateTesting", CoordinateTesting);
     SmartDashboard.putData(m_chooser);
     return m_chooser.getSelected();
     // return null;
   }
-
 }
