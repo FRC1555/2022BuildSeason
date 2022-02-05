@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.SpecialMethods;
@@ -13,7 +14,6 @@ public class GyroTest extends CommandBase {
    /** Creates a new GyroTest. */
     // Variable Declarations
   double slow = 0.15;
-
 
   public GyroTest() {
      // Use addRequirements() here to declare subsystem dependencies.
@@ -30,16 +30,17 @@ public class GyroTest extends CommandBase {
   @Override
   public void execute() {
     double gyro =  - RobotContainer.driveTrain.navX.getAngle();
-    
     //Custom deadband necessary since you can never have a perfect angle. 
     while(gyro <= -5 || gyro >= 5) {
       gyro =  RobotContainer.driveTrain.navX.getAngle();
       //Turns Right
       if (gyro <= 5) {
         RobotContainer.driveTrain.setLeftMotors(slow);
+        RobotContainer.driveTrain.setRightMotors(-slow);
       }
       //Turns Left
       if (gyro >= -5){
+        RobotContainer.driveTrain.setLeftMotors(-slow);
         RobotContainer.driveTrain.setRightMotors(slow);
        }
     }
@@ -50,7 +51,7 @@ public class GyroTest extends CommandBase {
    // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SpecialMethods.ResetEverything();
+    SpecialMethods.UniversalReset();
   }
   
   // Returns true when the command should end.
