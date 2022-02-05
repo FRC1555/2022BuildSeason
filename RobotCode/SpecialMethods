@@ -1,5 +1,6 @@
 package frc.robot;
 
+import java.text.BreakIterator;
 
 public class SpecialMethods {
     private static final double cpr = 42;
@@ -64,9 +65,11 @@ public class SpecialMethods {
         RobotContainer.driveTrain.motorRightFrontEncoder.getPosition() < moveInTicks &&
         RobotContainer.driveTrain.motorRightBackEncoder.getPosition()< moveInTicks){
 
-        RobotContainer.driveTrain.setLeftMotors(slow);
-        RobotContainer.driveTrain.setRightMotors(slow);
-        }     
+            RobotContainer.driveTrain.setLeftMotors(slow);
+            RobotContainer.driveTrain.setRightMotors(slow);            
+        }
+
+        
     }
 
     public static void GyroCorrection(){
@@ -87,4 +90,5 @@ public class SpecialMethods {
         }
     }
 }
+
 
