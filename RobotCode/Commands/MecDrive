@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 
 public class MecDrive extends CommandBase {
 
-  public static final double speedLimit = 0.4;
+  public static final double speedLimit = 1;
   /** Creates a new MecDrive. */
   public MecDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,7 +42,7 @@ public class MecDrive extends CommandBase {
       leftStickX = 0;
     }
 
-    RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, -leftStickX * speedLimit, -rightStickX * speedLimit);
+    RobotContainer.driveTrain.mecanumDrive(-leftStickY * speedLimit, leftStickX * speedLimit, rightStickX * speedLimit);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,4 +57,3 @@ public class MecDrive extends CommandBase {
     return false;
   }
 }
-
