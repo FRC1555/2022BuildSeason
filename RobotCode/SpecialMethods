@@ -1,13 +1,13 @@
 package frc.robot;
 
-import java.text.BreakIterator;
-
+//Welcome to Brendan's Playground
 public class SpecialMethods {
     private static final double cpr = 42;
     private static final double whd = 6; 
     public static final double Tick2Inches = Math.PI*whd/cpr;
     public static final double slow = 0.1;
 
+    //Custom Resets
     public static void UniversalReset(){
         RobotContainer.driveTrain.navX.reset();
         RobotContainer.driveTrain.setLeftMotors(0);
@@ -18,74 +18,104 @@ public class SpecialMethods {
         RobotContainer.driveTrain.motorRightBackEncoder.setPosition(0);
     }
 
-    public static void AutoReset(){
-        RobotContainer.driveTrain.setLeftMotors(0);
-        RobotContainer.driveTrain.setRightMotors(0);  
+    public static void EncoderReset(){
         RobotContainer.driveTrain.motorLeftFrontEncoder.setPosition(0);
         RobotContainer.driveTrain.motorLeftBackEncoder.setPosition(0);
         RobotContainer.driveTrain.motorRightFrontEncoder.setPosition(0);
         RobotContainer.driveTrain.motorRightBackEncoder.setPosition(0);
     }
 
+    public static void MotorReset(){
+        RobotContainer.driveTrain.setLeftMotors(0);
+        RobotContainer.driveTrain.setRightMotors(0);  
+    }
+
+    public static void SensorReset(){
+        RobotContainer.driveTrain.navX.reset();
+    }
+
+    
+    /*Coordinate Wizard (AKA Brendan's Baby) is a method that takes in 2 Coordinates and calculates the trajectory of
+    the robot that it needs to take by vizualizing every possible coordinate as a Right-Angle Triangle. On a 2D cartesian
+    plane, we can use trigonometry and the distance formula in order to calculate how far the robot needs to turn and how 
+    far the robot needs to move.*/
     public static void CoordinateWizard(double X1, double Y1, double X2, double Y2){
         //Angle Calculations
         double calculateMoveDistanceX = (X2-X1);
         double calculateMoveDistanceY = (Y2-Y1);
         double tangentTheta = Math.atan(calculateMoveDistanceX/calculateMoveDistanceY);
-        double tangentThetaRadians = Math.toDegrees(tangentTheta);
+        double tangentThetaDegrees = Math.toDegrees(tangentTheta);
 
         //Distance Calculation using Trigonometric Distance Formula
         double moveDistance = Math.sqrt(Math.pow(calculateMoveDistanceX,2) + Math.pow(calculateMoveDistanceY,2));
         double moveInTicks = moveDistance*Tick2Inches;
 
+        //Get RobotAngle
         double robotTheta = RobotContainer.driveTrain.navX.getAngle();
-        //Custom deadbands necessary since you can never have a perfect angle. 
+
         //If Coordinate is to the right of the robot
-        if (robotTheta < tangentThetaRadians){
-            while (robotTheta < tangentThetaRadians -5){
+        if (robotTheta < tangentThetaDegrees){
+            while (robotTheta < tangentThetaDegrees){
                 robotTheta = RobotContainer.driveTrain.navX.getAngle();
                 RobotContainer.driveTrain.setLeftMotors(slow);
                 RobotContainer.driveTrain.setRightMotors(-slow);    
             }
         }
         //If Coordinate is to the left of the robot
-        if (robotTheta > tangentThetaRadians){
-            while (robotTheta > tangentThetaRadians + 5){
+        if (robotTheta > tangentThetaDegrees){
+            while (robotTheta > tangentThetaDegrees){
                 robotTheta = RobotContainer.driveTrain.navX.getAngle();
                 RobotContainer.driveTrain.setLeftMotors(-slow);
                 RobotContainer.driveTrain.setRightMotors(slow);  
             }
         }
 
-        RobotContainer.driveTrain.setLeftMotors(0);
-        RobotContainer.driveTrain.setRightMotors(0);  
-        //Distance
+        MotorReset(); 
+        EncoderReset(); 
+
+        //Robot goes to Coordinate
         while (-RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition() < moveInTicks &&
         -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition() < moveInTicks &&
         RobotContainer.driveTrain.motorRightFrontEncoder.getPosition() < moveInTicks &&
-        RobotContainer.driveTrain.motorRightBackEncoder.getPosition()< moveInTicks){
+        RobotContainer.driveTrain.motorRightBackEncoder.getPosition() < moveInTicks){
 
             RobotContainer.driveTrain.setLeftMotors(slow);
             RobotContainer.driveTrain.setRightMotors(slow);            
-        }
-
-        
+        }      
     }
 
+    //Helps correct the robot to compensate for incompetent hardware and weight imbalances
     public static void GyroCorrection(){
-        double gyro =  - RobotContainer.driveTrain.navX.getAngle();
-    
+        double gyro =  RobotContainer.driveTrain.navX.getAngle();
+        double GyroCorrectionleftStickY = -RobotContainer.driverController_1.getY();
+        double GyroCorrectionrightStickY = RobotContainer.driverController_1.getX();
+
         //Custom deadband necessary since you can never have a perfect angle. 
-        while(gyro <= -5 || gyro >= 5) {
-            
-            gyro =  RobotContainer.driveTrain.navX.getAngle();
-            //Turns Right
-            if (gyro <= 5) {
-            RobotContainer.driveTrain.setLeftMotors(slow);
+        if(GyroCorrectionleftStickY < -0.05 || GyroCorrectionleftStickY > 0.05){
+
+            while(gyro <= -5 || gyro >= 5) {
+                gyro =  RobotContainer.driveTrain.navX.getAngle();
+                //Adjusts Left
+                if (gyro >= 5) {
+                RobotContainer.driveTrain.setLeftMotors(slow);
+                }
+                //Adjusts Right
+                if (gyro <= -5){
+                RobotContainer.driveTrain.setRightMotors(slow);
+                }
             }
-            //Turns Left
-             if (gyro >= -5){
-            RobotContainer.driveTrain.setRightMotors(slow);
+        }
+        if(GyroCorrectionrightStickY < -0.05 || GyroCorrectionrightStickY > 0.05){
+            while(gyro <= -5 || gyro >= 5) {
+                gyro =  RobotContainer.driveTrain.navX.getAngle();
+                //Adjusts Left
+                if (gyro >= 5) {
+                RobotContainer.driveTrain.setLeftMotors(slow);
+                }
+                //Adjusts Right
+                if (gyro <= -5){
+                RobotContainer.driveTrain.setRightMotors(slow);
+                }
             }
         }
     }
