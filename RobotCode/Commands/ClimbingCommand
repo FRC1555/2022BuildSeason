@@ -5,16 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 
-
-public class MecDrive extends CommandBase {
-
-  public static final double speedLimit = 0.4;
-  /** Creates a new MecDrive. */
-  public MecDrive() {
+public class ClimbingCommand extends CommandBase {
+  /** Creates a new CimbingCommand. */
+  public ClimbingCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.driveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -23,21 +18,11 @@ public class MecDrive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-    double leftStickY = RobotContainer.driverController_1.getY();
-    //double rightStickY = RobotContainer.driverController_2.getY();
-    double leftStickX = RobotContainer.driverController_1.getX();
-    double rightStickX = RobotContainer.driverController_2.getX();
-    
-    RobotContainer.driveTrain.mecanumDrive(leftStickY, -leftStickX, -rightStickX);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.driveTrain.mecanumDrive(0,0,0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
@@ -45,3 +30,4 @@ public class MecDrive extends CommandBase {
     return false;
   }
 }
+
