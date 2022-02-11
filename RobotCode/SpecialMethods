@@ -12,6 +12,9 @@ public class SpecialMethods {
         RobotContainer.driveTrain.navX.reset();
         RobotContainer.driveTrain.setLeftMotors(0);
         RobotContainer.driveTrain.setRightMotors(0);  
+        RobotContainer.systems.IntakeSpeeds(0);        
+        RobotContainer.systems.CargoTransferSpeeds(0);    
+        RobotContainer.climbingSystem.ShooterSpeeds(0);        
         RobotContainer.driveTrain.motorLeftFrontEncoder.setPosition(0);
         RobotContainer.driveTrain.motorLeftBackEncoder.setPosition(0);
         RobotContainer.driveTrain.motorRightFrontEncoder.setPosition(0);
@@ -27,7 +30,10 @@ public class SpecialMethods {
 
     public static void MotorReset(){
         RobotContainer.driveTrain.setLeftMotors(0);
-        RobotContainer.driveTrain.setRightMotors(0);  
+        RobotContainer.driveTrain.setRightMotors(0); 
+        RobotContainer.systems.IntakeSpeeds(0);        
+        RobotContainer.systems.CargoTransferSpeeds(0);    
+        RobotContainer.climbingSystem.ShooterSpeeds(0);   
     }
 
     public static void SensorReset(){
@@ -88,11 +94,11 @@ public class SpecialMethods {
     public static void GyroCorrection(){
         double gyro =  RobotContainer.driveTrain.navX.getAngle();
         double GyroCorrectionleftStickY = -RobotContainer.driverController_1.getY();
-        double GyroCorrectionrightStickY = RobotContainer.driverController_1.getX();
+        double GyroCorrectionrightStickX = RobotContainer.driverController_1.getX();
 
         //Custom deadband necessary since you can never have a perfect angle. 
         if(GyroCorrectionleftStickY < -0.05 || GyroCorrectionleftStickY > 0.05){
-
+            SensorReset();
             while(gyro <= -5 || gyro >= 5) {
                 gyro =  RobotContainer.driveTrain.navX.getAngle();
                 //Adjusts Left
@@ -105,7 +111,8 @@ public class SpecialMethods {
                 }
             }
         }
-        if(GyroCorrectionrightStickY < -0.05 || GyroCorrectionrightStickY > 0.05){
+        if(GyroCorrectionrightStickX < -0.05 || GyroCorrectionrightStickX > 0.05){
+            SensorReset();
             while(gyro <= -5 || gyro >= 5) {
                 gyro =  RobotContainer.driveTrain.navX.getAngle();
                 //Adjusts Left
@@ -119,6 +126,41 @@ public class SpecialMethods {
             }
         }
     }
+
+    //Method for Intake Controls
+    public static void IntakeControls(boolean inTrigger, boolean outTrigger){
+        if(inTrigger == true){
+            RobotContainer.systems.IntakeSpeeds(1);
+        }
+        if(outTrigger == true){
+            RobotContainer.systems.IntakeSpeeds(-1);
+        }
+        else{
+            RobotContainer.systems.IntakeSpeeds(0);
+        }
+    }
+    //Method for Cargo Transfer Controls
+    public static void CargoTransferControls(boolean inButton, boolean outButton){
+        if(inButton == true){
+            RobotContainer.systems.CargoTransferSpeeds(1);
+        }
+        if(outButton == true){
+            RobotContainer.systems.CargoTransferSpeeds(-1);
+        }
+        else{
+            RobotContainer.systems.CargoTransferSpeeds(0);
+        }
+    }
+    //Method for Shooter Controls
+    public static void ShooterControls(Boolean shootButton1, Boolean shootButton2){
+        if(shootButton1 == true && shootButton2 == true){
+            RobotContainer.climbingSystem.ShooterSpeeds(1);
+        }
+        else{
+            RobotContainer.climbingSystem.ShooterSpeeds(0);
+        }
+    }
 }
+
 
 
