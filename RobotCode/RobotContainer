@@ -21,20 +21,26 @@ public class RobotContainer {
   //Our Joysticks
   public static final Joystick driverController_1 = new Joystick(Constants.DRIVER_CONTROLLER_1);
   public static final Joystick driverController_2 = new Joystick(Constants.DRIVER_CONTROLLER_2);
-  
+
   //Our DriveTrain
   public static final DriveTrain driveTrain = new DriveTrain();
-  public final Command GyroTest = new GyroTest();
-  public final Command CoordinateTesting = new CoordinateTesting();
+  
+  //Our Systems
+  public static final Systems systems = new Systems();
+  public static final ClimbingSystem climbingSystem = new ClimbingSystem();
+  //Our Autos
+  private final Command m_GyroTest = new GyroTest();
+  private final Command m_CoordinateTesting = new CoordinateTesting();
 
   //Sendable chooser
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  public static SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
     driveTrain.setDefaultCommand(new MecDrive());
+    
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -49,9 +55,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    m_chooser.setDefaultOption("CoordinateTesting", m_CoordinateTesting);
+    m_chooser.addOption("GyroTest", m_GyroTest);
+
+    SmartDashboard.putData(RobotContainer.m_chooser);
     //Runs the Autonomous
-    m_chooser.setDefaultOption("CoordinateTesting", CoordinateTesting);
-    SmartDashboard.putData(m_chooser);
     return m_chooser.getSelected();
     // return null;
   }
