@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("LeftBackEncoder", -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition());
     SmartDashboard.putNumber("RightFrontEncoder", RobotContainer.driveTrain.motorRightFrontEncoder.getPosition());
     SmartDashboard.putNumber("RightBackEncoder", RobotContainer.driveTrain.motorRightBackEncoder.getPosition());
+    SmartDashboard.putNumber("Shooter", RobotContainer.systems.Shooter.getSelectedSensorVelocity());
     //Jimbo Readings
     SmartDashboard.putNumber("JimboReadings", RobotContainer.driveTrain.JimboTheUltrasonicSensor.getValue());
     CommandScheduler.getInstance().run();
