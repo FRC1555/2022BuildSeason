@@ -25,9 +25,10 @@ public class RobotContainer {
   //Our DriveTrain
   public static final DriveTrain driveTrain = new DriveTrain();
   
-  //Our Systems
+  //Our SubSystems
   public static final Systems systems = new Systems();
   public static final ClimbingSystem climbingSystem = new ClimbingSystem();
+
   //Our Autos
   private final Command m_GyroTest = new GyroTest();
   private final Command m_CoordinateTesting = new CoordinateTesting();
@@ -40,7 +41,10 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     driveTrain.setDefaultCommand(new MecDrive());
-    
+
+    m_chooser.setDefaultOption("CoordinateTesting", m_CoordinateTesting);
+    m_chooser.addOption("GyroTest", m_GyroTest);
+    SmartDashboard.putData(RobotContainer.m_chooser);
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -55,10 +59,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    m_chooser.setDefaultOption("CoordinateTesting", m_CoordinateTesting);
-    m_chooser.addOption("GyroTest", m_GyroTest);
-
-    SmartDashboard.putData(RobotContainer.m_chooser);
     //Runs the Autonomous
     return m_chooser.getSelected();
     // return null;
