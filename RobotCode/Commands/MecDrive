@@ -6,11 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.SpecialMethods;
 
 
 public class MecDrive extends CommandBase {
 
-  public static final double speedLimit = 1;
+  public static final double speedLimit = 0.25;
   /** Creates a new MecDrive. */
   public MecDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,12 +25,47 @@ public class MecDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Angle
-    //double gyroAngle = RobotContainer.driveTrain.navX.getAngle();
-    double leftStickY = RobotContainer.driverController_1.getY();
-    //double rightStickY = RobotContainer.driverController_2.getY();
+    //Gets Joystick Readings
+    //NOTE: leftStickY needs to be negative since if you press forward technically the joystick reads negative. 
+    double leftStickY = -RobotContainer.driverController_1.getY();
     double leftStickX = RobotContainer.driverController_1.getX();
     double rightStickX = RobotContainer.driverController_2.getX();
+
+    //Gets Button Readings
+      //Left Stick Buttons
+  boolean leftButton2 = RobotContainer.driverController_1.getRawButton(2);      
+  boolean leftButton4 = RobotContainer.driverController_1.getRawButton(4);   
+  boolean leftTrigger = RobotContainer.driverController_1.getTrigger();
+  //Unused Buttons
+  /*
+  boolean leftButton1 = RobotContainer.driverController_1.getRawButton(1); 
+  boolean leftButton3 = RobotContainer.driverController_1.getRawButton(3);
+  boolean leftButton5 = RobotContainer.driverController_1.getRawButton(5);   
+  boolean leftButton6 = RobotContainer.driverController_1.getRawButton(6);   
+  boolean leftButton7 = RobotContainer.driverController_1.getRawButton(7);   
+  boolean leftButton8 = RobotContainer.driverController_1.getRawButton(8);   
+  boolean leftButton9 = RobotContainer.driverController_1.getRawButton(9);    
+  boolean leftButton10 = RobotContainer.driverController_1.getRawButton(10);
+  */
+  
+  //Right Stick Buttons   
+  boolean rightButton2 = RobotContainer.driverController_2.getRawButton(2);        
+  boolean rightButton5 = RobotContainer.driverController_2.getRawButton(5);    
+  boolean rightTrigger = RobotContainer.driverController_2.getTrigger();
+  //Unused Buttons  
+  /*
+  boolean rightButton1 = RobotContainer.driverController_2.getRawButton(1);  
+  boolean rightButton3 = RobotContainer.driverController_2.getRawButton(3);     
+  boolean rightButton4 = RobotContainer.driverController_2.getRawButton(4);
+  boolean rightButton6 = RobotContainer.driverController_2.getRawButton(6);    
+  boolean rightButton7 = RobotContainer.driverController_2.getRawButton(7);    
+  boolean rightButton8 = RobotContainer.driverController_2.getRawButton(8);    
+  boolean rightButton9 = RobotContainer.driverController_2.getRawButton(9);     
+  boolean rightButton10 = RobotContainer.driverController_2.getRawButton(10);
+  */
+
+    //Gets Button Readings
+    //double LeftTrigger = RobotContainer.driveController_1.get
 
     //Manual Deadzone
     if(rightStickX < 0.05 && rightStickX > -0.05){
@@ -41,8 +77,12 @@ public class MecDrive extends CommandBase {
     if(leftStickX < 0.05 && leftStickX > -0.05){
       leftStickX = 0;
     }
+    // SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
+    // SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
+    SpecialMethods.ShooterControls(leftButton2, rightButton2);
 
-    RobotContainer.driveTrain.mecanumDrive(-leftStickY * speedLimit, leftStickX * speedLimit, rightStickX * speedLimit);
+    RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, leftStickX * speedLimit, rightStickX * speedLimit);
+
   }
 
   // Called once the command ends or is interrupted.
@@ -57,3 +97,4 @@ public class MecDrive extends CommandBase {
     return false;
   }
 }
+
