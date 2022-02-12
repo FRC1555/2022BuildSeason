@@ -6,27 +6,24 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 public class ClimbingSystem extends SubsystemBase {
-  public static TalonFX Shooter;
-  public static Solenoid LeftPneumatic;
-  public static Solenoid RightPneumatic;
+  public static DoubleSolenoid IntakeSolenoid;
+  public static DoubleSolenoid ClimbingSolenoid;
+ // public static VictorSPX ClimberWinch;
+  
   /** Creates a new ClimbingSystem. */
   public ClimbingSystem() {
-    Shooter = new TalonFX(Constants.Shooter_ID);
-    LeftPneumatic = new Solenoid(0, PneumaticsModuleType.CTREPCM , Constants.LeftPneumatic_ID);
-    RightPneumatic = new Solenoid(1, PneumaticsModuleType.CTREPCM, Constants.RightPneumatic_ID);
+    IntakeSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM , Constants.IntakePneumatic_ID_A, Constants.IntakePneumatic_ID_B);
+    ClimbingSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbingPneumatic_ID_A, Constants.ClimbingPneumatic_ID_B);
+    //ClimberWinch = new VictorSPX(Constants.ClimberWinch_ID);
   }
   
-  public void ShooterSpeeds(double speed){
-    Shooter.set(ControlMode.PercentOutput, speed);
-  }
-
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
