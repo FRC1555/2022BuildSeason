@@ -25,34 +25,41 @@ public class CargoScoring extends CommandBase {
   @Override
   public void execute() {
   //Left Stick Buttons
-  boolean leftButton1 = RobotContainer.driverController_1.getRawButton(1);    
-  boolean leftButton2 = RobotContainer.driverController_1.getRawButton(2);   
-  boolean leftButton3 = RobotContainer.driverController_1.getRawButton(3);    
+  boolean leftButton2 = RobotContainer.driverController_1.getRawButton(2);      
   boolean leftButton4 = RobotContainer.driverController_1.getRawButton(4);   
+  boolean leftTrigger = RobotContainer.driverController_1.getTrigger();
+  //Unused Buttons
+  /*
+  boolean leftButton1 = RobotContainer.driverController_1.getRawButton(1); 
+  boolean leftButton3 = RobotContainer.driverController_1.getRawButton(3);
   boolean leftButton5 = RobotContainer.driverController_1.getRawButton(5);   
   boolean leftButton6 = RobotContainer.driverController_1.getRawButton(6);   
   boolean leftButton7 = RobotContainer.driverController_1.getRawButton(7);   
   boolean leftButton8 = RobotContainer.driverController_1.getRawButton(8);   
   boolean leftButton9 = RobotContainer.driverController_1.getRawButton(9);    
   boolean leftButton10 = RobotContainer.driverController_1.getRawButton(10);
-  boolean leftTrigger = RobotContainer.driverController_1.getTrigger();
-
-  //Right Stick Buttons
-  boolean rightButton1 = RobotContainer.driverController_2.getRawButton(1);     
-  boolean rightButton2 = RobotContainer.driverController_2.getRawButton(2);    
-  boolean rightButton3 = RobotContainer.driverController_2.getRawButton(3);     
-  boolean rightButton4 = RobotContainer.driverController_2.getRawButton(4);    
+  */
+  
+  //Right Stick Buttons   
+  boolean rightButton2 = RobotContainer.driverController_2.getRawButton(2); 
+  boolean rightButton3 = RobotContainer.driverController_2.getRawButton(3);        
   boolean rightButton5 = RobotContainer.driverController_2.getRawButton(5);    
+  boolean rightTrigger = RobotContainer.driverController_2.getTrigger();
+  //Unused Buttons  
+  /*
+  boolean rightButton1 = RobotContainer.driverController_2.getRawButton(1);      
+  boolean rightButton4 = RobotContainer.driverController_2.getRawButton(4);
   boolean rightButton6 = RobotContainer.driverController_2.getRawButton(6);    
   boolean rightButton7 = RobotContainer.driverController_2.getRawButton(7);    
   boolean rightButton8 = RobotContainer.driverController_2.getRawButton(8);    
   boolean rightButton9 = RobotContainer.driverController_2.getRawButton(9);     
   boolean rightButton10 = RobotContainer.driverController_2.getRawButton(10);
-  boolean rightTrigger = RobotContainer.driverController_2.getTrigger();;  
+  */
   
-  SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
-  SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
+  // SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
+  // SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
   SpecialMethods.ShooterControls(leftButton2, rightButton2);
+  SpecialMethods.IntakeLiftControl(rightButton3);
   }
 
   // Called once the command ends or is interrupted.
