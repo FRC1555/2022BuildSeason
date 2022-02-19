@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 //Welcome to Brendan's Playground
 public class SpecialMethods {
@@ -7,6 +8,9 @@ public class SpecialMethods {
     private static final double whd = 6; 
     public static final double Tick2Inches = Math.PI*whd/cpr;
     public static final double slow = 0.1;
+    enum Cutton1{OFF,IN,OUT};
+
+    public static Cutton1 state = Cutton1.OFF;
 
     //Custom Resets
     public static void UniversalReset(){
@@ -92,7 +96,7 @@ public class SpecialMethods {
     }
 
     //Helps correct the robot to compensate for incompetent hardware and weight imbalances
-    public static void GyroCorrection(){
+    public static void TeleWithGyroCorrection(){
         double gyro =  RobotContainer.driveTrain.navX.getAngle();
         double GyroCorrectionleftStickY = -RobotContainer.driverController_1.getY();
         double GyroCorrectionrightStickX = RobotContainer.driverController_1.getX();
@@ -167,4 +171,103 @@ public class SpecialMethods {
 
         
     // }
+    
+    //Function that switches the solenoids for the climber manually with a button
+    public static void ManualClimbingControl(Boolean Cutton){
+        //This timer setup is used so that the button doesn't cause a massive amount of spam
+        IanTimer ianTimer = new IanTimer();
+        ianTimer.start();
+        double Delay = 500;
+
+        switch (state){
+            //Sets Solenoids OFF
+            case OFF:
+                if(Cutton && ianTimer.currentMills() > Delay){
+                    state = Cutton1.IN;
+                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kOff);
+                    ianTimer.reset();
+                }
+                break;
+            //Sets Solenoids IN
+            case IN:
+                if(Cutton && ianTimer.currentMills() > Delay){
+                    state = Cutton1.OUT;
+                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kForward);
+                    ianTimer.reset();
+                }
+                break;
+
+            //Sets Solenoid Out
+            case OUT:
+                if(Cutton && ianTimer.currentMills() > Delay){
+                    state = Cutton1.OFF;
+                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kReverse);
+                    ianTimer.reset();
+                }
+                break;
+            
+        }
+    }
+
+    //Function that switches solenoid positions in Auto
+    public static void ClimbingControl(String Position){
+        switch (state){
+            //Sets Solenoids OFF
+            case OFF:
+                if(Position == "Off"){
+                    state = Cutton1.IN;
+                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kOff);
+                }
+                break;
+            //Sets Solenoids IN
+            case IN:
+                if(Position == "Forward"){
+                    state = Cutton1.OUT;
+                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kForward);
+                }
+                break;
+            //Sets Solenoid Out
+            case OUT:
+                if(Position == "Reverse"){
+                    state = Cutton1.OFF;
+                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kReverse);
+                }
+                break;
+        }
+    }
+    //Function that switches the solenoids for the intake manually with a button
+    public static void IntakeLiftControl(Boolean Cutton){
+        //This timer setup is used so that the button doesn't cause a massive amount of spam
+        IanTimer ianTimer = new IanTimer();
+        ianTimer.start();
+        double Delay = 500;
+
+        switch (state){
+            //Sets Solenoids OFF
+            case OFF:
+                if(Cutton && ianTimer.currentMills() > Delay){
+                    state = Cutton1.IN;
+                    RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kOff);
+                    ianTimer.reset();
+                }
+                break;
+            //Sets Solenoids IN
+            case IN:
+                if(Cutton && ianTimer.currentMills() > Delay){
+                    state = Cutton1.OUT;
+                    RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kForward);
+                    ianTimer.reset();
+                }
+                break;
+            //Sets Solenoid Out
+            case OUT:
+                if(Cutton && ianTimer.currentMills() > Delay){
+                    state = Cutton1.OFF;
+                    RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kReverse);
+                    ianTimer.reset();
+                }
+                break;
+            
+        }
+    }
 }
