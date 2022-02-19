@@ -14,8 +14,8 @@ import frc.robot.Constants;
 
 public class Systems extends SubsystemBase {
   //System Motors
-  // public VictorSPX Intake;
-  // public VictorSPX cargoTransfer;
+  public VictorSPX Intake;
+  public VictorSPX cargoTransfer;
   public TalonFX Shooter;
 
   //System Encoders
@@ -24,20 +24,20 @@ public class Systems extends SubsystemBase {
   /** Creates a new Systems. */
   public Systems() {
     //System Motor Instantiations
-    // Intake = new VictorSPX(Constants.Intake_ID);
-    // cargoTransfer = new VictorSPX(Constants.cargoTransfer_ID);
+    Intake = new VictorSPX(Constants.Intake_ID);
+    cargoTransfer = new VictorSPX(Constants.cargoTransfer_ID);
     Shooter = new TalonFX(Constants.Shooter_ID);
 
     ShooterEncoder = new CANCoder(Constants.Shooter_ID);
     
   }
   //Utilizing Methods Built in SpecialMethods
-  // public void IntakeSpeeds(double speed){
-  //   Intake.set(ControlMode.PercentOutput, speed);
-  // }
-  // public void CargoTransferSpeeds(double speed){
-  //   cargoTransfer.set(ControlMode.PercentOutput, speed);
-  // }
+  public void IntakeSpeeds(double speed){
+    Intake.set(ControlMode.PercentOutput, speed);
+  }
+  public void CargoTransferSpeeds(double speed){
+    cargoTransfer.set(ControlMode.PercentOutput, speed);
+  }
   public void ShooterSpeeds(double speed){
     Shooter.set(ControlMode.PercentOutput, speed);
   }
@@ -47,3 +47,4 @@ public class Systems extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
+
