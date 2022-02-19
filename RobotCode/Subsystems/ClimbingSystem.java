@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.Constants;
 
 public class ClimbingSystem extends SubsystemBase {
-  public static DoubleSolenoid IntakeSolenoid;
-  public static DoubleSolenoid ClimbingSolenoid;
+  public DoubleSolenoid IntakeSolenoid;
+  public DoubleSolenoid ClimbingSolenoid;
  // public static VictorSPX ClimberWinch;
   
   /** Creates a new ClimbingSystem. */
