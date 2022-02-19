@@ -9,11 +9,11 @@ import frc.robot.RobotContainer;
 import frc.robot.SpecialMethods;
 
 
-public class MecDrive extends CommandBase {
+public class TeleOp extends CommandBase {
 
   public static final double speedLimit = 0.25;
-  /** Creates a new MecDrive. */
-  public MecDrive() {
+  /** Creates a new TeleOp. */
+  public TeleOp() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveTrain);
   }
@@ -79,8 +79,8 @@ public class MecDrive extends CommandBase {
     }
     // SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
     // SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
+    SpecialMethods.TeleWithGyroCorrection();
     SpecialMethods.ShooterControls(leftButton2, rightButton2);
-
     RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, leftStickX * speedLimit, rightStickX * speedLimit);
 
   }
