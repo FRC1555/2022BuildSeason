@@ -32,6 +32,10 @@ public class RobotContainer {
   //Our Autos
   private final Command m_GyroTest = new GyroTest();
   private final Command m_CoordinateTesting = new CoordinateTesting();
+  private final Command m_BlueAlpha = new BlueAlpha();  
+  private final Command m_BlueBeta = new BlueBeta();
+  private final Command m_RedAlpha = new RedAlpha();
+  private final Command m_RedBeta = new RedBeta();  
 
   //Sendable chooser
   public static SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -40,11 +44,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    driveTrain.setDefaultCommand(new MecDrive());
-
-    m_chooser.setDefaultOption("CoordinateTesting", m_CoordinateTesting);
-    m_chooser.addOption("GyroTest", m_GyroTest);
-    SmartDashboard.putData(RobotContainer.m_chooser);
+    driveTrain.setDefaultCommand(new TeleOp());
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -59,6 +59,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    m_chooser.setDefaultOption("CoordinateTesting", m_CoordinateTesting);
+    m_chooser.addOption("GyroTest", m_GyroTest);
+    m_chooser.addOption("BlueAlpha", m_BlueAlpha);
+    m_chooser.addOption("BlueBeta",m_BlueBeta);
+    m_chooser.addOption("RedAlpha",m_RedAlpha);
+    m_chooser.addOption("RedBeta",m_RedBeta);
+    SmartDashboard.putData(RobotContainer.m_chooser);
     //Runs the Autonomous
     return m_chooser.getSelected();
     // return null;
