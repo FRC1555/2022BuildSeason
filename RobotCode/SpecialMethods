@@ -133,29 +133,29 @@ public class SpecialMethods {
     }
 
     //Method for Intake Controls
-    // public static void IntakeControls(boolean inTrigger, boolean outTrigger){
-    //     if(inTrigger == true){
-    //         RobotContainer.systems.IntakeSpeeds(1);
-    //     }
-    //     if(outTrigger == true){
-    //         RobotContainer.systems.IntakeSpeeds(-1);
-    //     }
-    //     else{
-    //         RobotContainer.systems.IntakeSpeeds(0);
-    //     }
-    // }
-    // //Method for Cargo Transfer Controls
-    // public static void CargoTransferControls(boolean inButton, boolean outButton){
-    //     if(inButton == true){
-    //         RobotContainer.systems.CargoTransferSpeeds(1);
-    //     }
-    //     if(outButton == true){
-    //         RobotContainer.systems.CargoTransferSpeeds(-1);
-    //     }
-    //     else{
-    //         RobotContainer.systems.CargoTransferSpeeds(0);
-    //     }
-    // }
+    public static void IntakeControls(boolean inTrigger, boolean outTrigger){
+        if(inTrigger == true){
+            RobotContainer.systems.IntakeSpeeds(1);
+        }
+        if(outTrigger == true){
+            RobotContainer.systems.IntakeSpeeds(-1);
+        }
+        else{
+            RobotContainer.systems.IntakeSpeeds(0);
+        }
+    }
+    //Method for Cargo Transfer Controls
+    public static void CargoTransferControls(boolean inButton, boolean outButton){
+        if(inButton == true){
+            RobotContainer.systems.CargoTransferSpeeds(1);
+        }
+        if(outButton == true){
+            RobotContainer.systems.CargoTransferSpeeds(-1);
+        }
+        else{
+            RobotContainer.systems.CargoTransferSpeeds(0);
+        }
+    }
     //Method for Shooter Controls
     public static void ShooterControls(Boolean shootButton1, Boolean shootButton2){
         if(shootButton1 == true && shootButton2 == true){
@@ -165,12 +165,6 @@ public class SpecialMethods {
             RobotContainer.systems.ShooterSpeeds(0);
         }
     }
-
-    // public static void ShooterRPMCalculator(){
-    //     double StartTime = System.nanoTime();
-
-        
-    // }
     
     //Function that switches the solenoids for the climber manually with a button
     public static void ManualClimbingControl(Boolean Cutton){
@@ -270,4 +264,34 @@ public class SpecialMethods {
             
         }
     }
+
+    //Function that takes RPM and revs up the shooter until it can 
+    public static void RPMShooter(double DesiredRPM){
+        IanTimer ianTimer = new IanTimer();  
+        double speed = 0;
+        boolean check = false; 
+
+        //Math converting RPM to Encoder Ticks per 100ms
+        double encoderCount = 4096;
+        double ticksPer100ms = (DesiredRPM*encoderCount)/600;
+
+        //Only transfers cargo into shooter if the shooter is running at a certain velocity
+        while(check = false){
+            //Velocity Detection Logic
+            if(RobotContainer.systems.Shooter.getSelectedSensorVelocity() >= ticksPer100ms){
+                //Cargo Transfer then SHOOT!!!
+                ianTimer.reset();
+                while(ianTimer.currentMills() <= 3000){
+                    RobotContainer.systems.CargoTransferSpeeds(1);
+                    RobotContainer.systems.ShooterSpeeds(speed);
+                } 
+                //Exit Loop
+                check = true;
+            }
+            speed = speed + 0.01;
+            RobotContainer.systems.ShooterSpeeds(speed);
+        }
+        RobotContainer.systems.ShooterSpeeds(0);
+    }
 }
+
