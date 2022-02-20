@@ -28,16 +28,18 @@ public class BlueAlpha extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Timer Instantiation
     IanTimer ianTimer = new IanTimer();
-
+    //The robot angle must be preadjusted so the calculations are correct
     RobotContainer.driveTrain.navX.setAngleAdjustment(-30);    
-    //Phase 1
+
+    //Phase 1: Go to Ball and Intake
     RobotContainer.systems.IntakeSpeeds(1);
     SpecialMethods.CoordinateWizard(280,197,193,242);
 
     SpecialMethods.EncoderReset();
     SpecialMethods.MotorReset();
-    //Phase 2
+    //Phase 2: Finalize intaking the ball and turning back
     ianTimer.start();
     while(ianTimer.currentMills() >= 1000){
       RobotContainer.systems.IntakeSpeeds(1);
@@ -48,23 +50,10 @@ public class BlueAlpha extends CommandBase {
     
     SpecialMethods.EncoderReset();
     SpecialMethods.MotorReset();
-    //Phase 3
-    //Velocity is a work in progress
-    double speed = 0;
-    boolean check = false; 
-    //Only transfers cargo into shooter if the shooter is running at a certain velocity
-    while(check = false){
-      if(RobotContainer.systems.Shooter.getSelectedSensorVelocity() >= 60){
-        ianTimer.reset();
-        while(ianTimer.currentMills() >= 1000){
-          RobotContainer.systems.CargoTransferSpeeds(1);
-        }
-        check = true;
-      }
-      speed = speed + 0.01;
-      RobotContainer.systems.ShooterSpeeds(speed);
-    }
-    //Phase 4
+    //Phase 3: Scoring the ball
+    SpecialMethods.RPMShooter(300);
+
+    //Phase 4: Turning and leaving the Tarmac
     SpecialMethods.CoordinateWizard(278,185,185,177);
 
     SpecialMethods.EncoderReset();
@@ -85,4 +74,5 @@ public class BlueAlpha extends CommandBase {
     return finished;
   }
 }
+
 
