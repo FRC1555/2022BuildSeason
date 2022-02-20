@@ -15,13 +15,13 @@ import frc.robot.Constants;
 public class ClimbingSystem extends SubsystemBase {
   public DoubleSolenoid IntakeSolenoid;
   public DoubleSolenoid ClimbingSolenoid;
- // public static VictorSPX ClimberWinch;
+  public static VictorSPX ClimberWinch;
   
   /** Creates a new ClimbingSystem. */
   public ClimbingSystem() {
     IntakeSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM , Constants.IntakePneumatic_ID_A, Constants.IntakePneumatic_ID_B);
     ClimbingSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.ClimbingPneumatic_ID_A, Constants.ClimbingPneumatic_ID_B);
-    //ClimberWinch = new VictorSPX(Constants.ClimberWinch_ID);
+    ClimberWinch = new VictorSPX(Constants.ClimberWinch_ID);
   }
   
   @Override
