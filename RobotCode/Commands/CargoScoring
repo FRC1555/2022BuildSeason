@@ -56,8 +56,8 @@ public class CargoScoring extends CommandBase {
   boolean rightButton10 = RobotContainer.driverController_2.getRawButton(10);
   */
   
-  // SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
-  // SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
+  SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
+  SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
   SpecialMethods.ShooterControls(leftButton2, rightButton2);
   SpecialMethods.IntakeLiftControl(rightButton3);
   }
