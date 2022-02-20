@@ -21,10 +21,11 @@ public final class Constants {
     public static int motorRightFront_ID = 2;
     public static int motorLeftFront_ID = 3;
     public static int motorLeftBack_ID = 4;
-    public static int ClimberWinch_ID = 5;
+    public static int Shooter_ID = 5;
     public static int Intake_ID = 6;
     public static int cargoTransfer_ID = 7;
-    public static int Shooter_ID = 5;
+    public static int ClimberWinch_ID = 8;
+    
     
     //Sensors
     public static final I2C.Port navX_ID = I2C.Port.kMXP;
@@ -41,3 +42,4 @@ public final class Constants {
     public static final int ClimbingPneumatic_ID_B = 3;
     
 }
+
