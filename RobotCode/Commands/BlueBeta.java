@@ -29,16 +29,17 @@ public class BlueBeta extends CommandBase {
   @Override
   public void execute() {
     IanTimer ianTimer = new IanTimer();
-    RobotContainer.driveTrain.navX.setAngleAdjustment(-120);  
+    RobotContainer.driveTrain.navX.setAngleAdjustment(-155);  
     
-    //Phase 1
+    //Phase 1: Rotate and go to ball
     RobotContainer.systems.IntakeSpeeds(1);
     SpecialMethods.CoordinateWizard(277, 111, 198 ,75);
 
     SpecialMethods.EncoderReset();
     SpecialMethods.MotorReset();
 
-    //Phase 2
+    //Phase 2: Pick up ball, then rotate to hub
+    ianTimer.start();
     while(ianTimer.currentMills() >= 1000){
       RobotContainer.systems.IntakeSpeeds(1);
     }
@@ -48,19 +49,19 @@ public class BlueBeta extends CommandBase {
     SpecialMethods.EncoderReset();
     SpecialMethods.MotorReset();
 
-    //Phase 3
+    //Phase 3: Line up shot
     SpecialMethods.CoordinateWizard(271, 68, 276, 83);
 
     SpecialMethods.EncoderReset();
     SpecialMethods.MotorReset();
 
-    //Phase 4
+    //Phase 4: Fire then exit tarmac
+    SpecialMethods.RPMShooter(60);
     SpecialMethods.CoordinateWizard(276, 83, 250,52);
 
     SpecialMethods.EncoderReset();
     SpecialMethods.MotorReset();
 
-    
     finished = true;
   }
 
