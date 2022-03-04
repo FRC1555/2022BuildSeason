@@ -5,7 +5,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.MecDrive;
+import frc.robot.commands.TeleOp;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RightBackEncoder", RobotContainer.driveTrain.motorRightBackEncoder.getPosition());
     SmartDashboard.putNumber("Shooter", RobotContainer.systems.Shooter.getSelectedSensorVelocity());
     //Jimbo Readings
-    SmartDashboard.putNumber("JimboReadings", RobotContainer.driveTrain.JimboTheUltrasonicSensor.getValue());
+    //SmartDashboard.putNumber("JimboReadings", RobotContainer.driveTrain.JimboTheUltrasonicSensor.getValue());
     CommandScheduler.getInstance().run();
   }
   /** This function is called once each time the robot enters Disabled mode. */
@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.driveTrain.setDefaultCommand(new MecDrive());
+    RobotContainer.driveTrain.setDefaultCommand(new TeleOp());
   }
   /** This function is called periodically during operator control. */
 
