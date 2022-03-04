@@ -29,15 +29,16 @@ public class TeleOp extends CommandBase {
     //NOTE: leftStickY needs to be negative since if you press forward technically the joystick reads negative. 
     double leftStickY = -RobotContainer.driverController_1.getY();
     double leftStickX = RobotContainer.driverController_1.getX();
-    double rightStickX = RobotContainer.driverController_2.getX();
+    double leftStickTwist = RobotContainer.driverController_2.getTwist();
+    double rightStickY = RobotContainer.driverController_2.getTwist();
 
     //Gets Button Readings
-      //Left Stick Buttons
-  boolean leftButton2 = RobotContainer.driverController_1.getRawButton(2);      
-  boolean leftButton4 = RobotContainer.driverController_1.getRawButton(4);   
-  boolean leftTrigger = RobotContainer.driverController_1.getTrigger();
-  //Unused Buttons
-  /*
+    //Left Stick Buttons
+    boolean leftButton2 = RobotContainer.driverController_1.getRawButton(2);      
+    boolean leftButton4 = RobotContainer.driverController_1.getRawButton(4);   
+    boolean leftTrigger = RobotContainer.driverController_1.getTrigger();
+    //Unused Buttons
+    /*
   boolean leftButton1 = RobotContainer.driverController_1.getRawButton(1); 
   boolean leftButton3 = RobotContainer.driverController_1.getRawButton(3);
   boolean leftButton5 = RobotContainer.driverController_1.getRawButton(5);   
@@ -48,14 +49,14 @@ public class TeleOp extends CommandBase {
   boolean leftButton10 = RobotContainer.driverController_1.getRawButton(10);
   */
   
-  //Right Stick Buttons   
-  boolean rightButton2 = RobotContainer.driverController_2.getRawButton(2);        
-  boolean rightButton5 = RobotContainer.driverController_2.getRawButton(5);    
-  boolean rightTrigger = RobotContainer.driverController_2.getTrigger();
-  //Unused Buttons  
-  /*
-  boolean rightButton1 = RobotContainer.driverController_2.getRawButton(1);  
-  boolean rightButton3 = RobotContainer.driverController_2.getRawButton(3);     
+    //Right Stick Buttons   
+    boolean rightButton2 = RobotContainer.driverController_2.getRawButton(2);
+    boolean rightButton3 = RobotContainer.driverController_2.getRawButton(3);        
+    boolean rightButton5 = RobotContainer.driverController_2.getRawButton(5);    
+    boolean rightTrigger = RobotContainer.driverController_2.getTrigger();
+    //Unused Buttons  
+    /*
+  boolean rightButton1 = RobotContainer.driverController_2.getRawButton(1);       
   boolean rightButton4 = RobotContainer.driverController_2.getRawButton(4);
   boolean rightButton6 = RobotContainer.driverController_2.getRawButton(6);    
   boolean rightButton7 = RobotContainer.driverController_2.getRawButton(7);    
@@ -65,8 +66,8 @@ public class TeleOp extends CommandBase {
   */
 
     //Manual Deadzone
-    if(rightStickX < 0.05 && rightStickX > -0.05){
-      rightStickX = 0;
+    if(leftStickTwist < 0.05 && leftStickTwist > -0.05){
+      leftStickTwist = 0;
     }
     if(leftStickY < 0.05 && leftStickY > -0.05){
       leftStickY = 0;
@@ -74,11 +75,16 @@ public class TeleOp extends CommandBase {
     if(leftStickX < 0.05 && leftStickX > -0.05){
       leftStickX = 0;
     }
+    if(rightStickY < 0.05 && rightStickY > -0.05){
+      rightStickY = 0;
+    }
+    
+    SpecialMethods.ManualClimbingControl(rightButton3);
     SpecialMethods.IntakeControls(leftTrigger, rightTrigger);
     SpecialMethods.CargoTransferControls(leftButton4, rightButton5);
-    SpecialMethods.TeleWithGyroCorrection();
-    SpecialMethods.ShooterControls(leftButton2, rightButton2);
-    RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, leftStickX * speedLimit, rightStickX * speedLimit);
+    RobotContainer.systems.ShooterSpeeds(rightStickY);
+    //SpecialMethods.TeleWithGyroCorrection();
+    RobotContainer.driveTrain.mecanumDrive(leftStickY * speedLimit, leftStickX * speedLimit, leftStickTwist * speedLimit);
 
   }
 
@@ -94,4 +100,3 @@ public class TeleOp extends CommandBase {
     return false;
   }
 }
-
