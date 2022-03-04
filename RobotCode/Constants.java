@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.I2C;
 //import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
@@ -21,25 +22,35 @@ public final class Constants {
     public static int motorRightFront_ID = 2;
     public static int motorLeftFront_ID = 3;
     public static int motorLeftBack_ID = 4;
-    public static int Shooter_ID = 5;
-    public static int Intake_ID = 6;
+    public static int shooter_ID = 5;
+    public static int intake_ID = 6;
     public static int cargoTransfer_ID = 7;
-    public static int ClimberWinch_ID = 8;
+    public static int climberWinch_ID = 8;
     
     
-    //Sensors
+    //Sensors (PWM and MXP)
     public static final I2C.Port navX_ID = I2C.Port.kMXP;
-    public static final int JimboTheUltrasonicSensor_ID = 0;
+    //public static final int JimboTheUltrasonicSensor_ID = 0;
+    public static final int CasterLeft_ID_A = 1;
+    public static final int CasterLeft_ID_B = 2;
+    public static final int CasterRight_ID_A = 3;
+    public static final int CasterRight_ID_B = 4;
+    public static final int WinchEncoder_ID_A = 5;
+    public static final int WinchEncoder_ID_B = 6;
+
 
     //Driver Controller Constants
     public static final int DRIVER_CONTROLLER_1 = 0;
     public static final int DRIVER_CONTROLLER_2 = 1;
 
-    //Solenoids
-    public static final int IntakePneumatic_ID_A = 0;
-    public static final int IntakePneumatic_ID_B = 1;
-    public static final int ClimbingPneumatic_ID_A = 2; 
-    public static final int ClimbingPneumatic_ID_B = 3;
+    //DIO Outputs (Solenoids and Limit Switch)
+    public static final int intakePneumatic_ID_A = 0;
+    public static final int intakePneumatic_ID_B = 1;
+    public static final int climbingPneumatic_ID_A = 2; 
+    public static final int climbingPneumatic_ID_B = 3;
+    
+
+
     
 }
 
