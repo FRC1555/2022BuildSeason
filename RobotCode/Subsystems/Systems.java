@@ -24,12 +24,13 @@ public class Systems extends SubsystemBase {
   /** Creates a new Systems. */
   public Systems() {
     //System Motor Instantiations
-    Intake = new VictorSPX(Constants.Intake_ID);
+    Intake = new VictorSPX(Constants.intake_ID);
     cargoTransfer = new VictorSPX(Constants.cargoTransfer_ID);
-    Shooter = new TalonFX(Constants.Shooter_ID);
+    Shooter = new TalonFX(Constants.shooter_ID);
 
-    ShooterEncoder = new CANCoder(Constants.Shooter_ID);
-    
+    ShooterEncoder = new CANCoder(Constants.shooter_ID);
+
+    cargoTransfer.setInverted(true);
   }
   //Utilizing Methods Built in SpecialMethods
   public void IntakeSpeeds(double speed){
@@ -47,4 +48,3 @@ public class Systems extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
-
