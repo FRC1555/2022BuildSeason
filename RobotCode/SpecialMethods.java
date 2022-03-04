@@ -4,21 +4,35 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 //Welcome to Brendan's Playground
 public class SpecialMethods {
-    private static final double cpr = 42;
-    private static final double whd = 6; 
-    public static final double Tick2Inches = Math.PI*whd/cpr;
+    //CPR = Counts per Revolution
+    private static final double cprNEO = 42;
+    private static final double cprTHROUGHBORE = 8192;
+    private static final double cprWINCH = 1024;
+    //whd = Wheel Diameter in inches
+    private static final double whdNEO = 6; 
+    private static final double whdTHROUGHBORE = 4;
+    private static final double whdWINCH = 4;
+    //Ticks 2 inches conversion: Basically outputs how many inches are in one tick
+    public static final double Tick2InchesNeo = Math.PI*whdNEO/cprNEO;
+    public static final double Tick2InchesCasters = Math.PI*whdTHROUGHBORE/cprTHROUGHBORE;
+    public static final double Tick2InchesWinch = Math.PI*whdWINCH/cprWINCH;
+    //Various motor speeds
     public static final double slow = 0.1;
-    enum Cutton1{OFF,IN,OUT};
+    public static final double medium = 0.5;
+    public static final double fast = 0.8;
+    public static final double fullThrottle = 1; 
+    //Button States
+    enum Cutton1{IN,OUT};
 
-    public static Cutton1 state = Cutton1.OFF;
+    public static Cutton1 state = Cutton1.IN;
 
     //Custom Resets
     public static void UniversalReset(){
         RobotContainer.driveTrain.navX.reset();
         RobotContainer.driveTrain.setLeftMotors(0);
         RobotContainer.driveTrain.setRightMotors(0);  
-        // RobotContainer.systems.IntakeSpeeds(0);        
-        // RobotContainer.systems.CargoTransferSpeeds(0);    
+        RobotContainer.systems.IntakeSpeeds(0);        
+        RobotContainer.systems.CargoTransferSpeeds(0);    
         RobotContainer.systems.ShooterSpeeds(0);        
         RobotContainer.driveTrain.motorLeftFrontEncoder.setPosition(0);
         RobotContainer.driveTrain.motorLeftBackEncoder.setPosition(0);
@@ -31,13 +45,13 @@ public class SpecialMethods {
         RobotContainer.driveTrain.motorLeftBackEncoder.setPosition(0);
         RobotContainer.driveTrain.motorRightFrontEncoder.setPosition(0);
         RobotContainer.driveTrain.motorRightBackEncoder.setPosition(0);
+        RobotContainer.driveTrain.CasterLeft.reset();
+        RobotContainer.driveTrain.CasterRight.reset();
     }
 
     public static void MotorReset(){
         RobotContainer.driveTrain.setLeftMotors(0);
-        RobotContainer.driveTrain.setRightMotors(0); 
-        // RobotContainer.systems.IntakeSpeeds(0);        
-        // RobotContainer.systems.CargoTransferSpeeds(0);    
+        RobotContainer.driveTrain.setRightMotors(0);  
         RobotContainer.systems.ShooterSpeeds(0);   
     }
 
@@ -57,12 +71,14 @@ public class SpecialMethods {
         double tangentTheta = Math.atan(calculateMoveDistanceX/calculateMoveDistanceY);
         double tangentThetaDegrees = Math.toDegrees(tangentTheta);
 
-        //Distance Calculation using Trigonometric Distance Formula
+        //Distance Calculation using Trigonometric Distance Formula in inches
         double moveDistance = Math.sqrt(Math.pow(calculateMoveDistanceX,2) + Math.pow(calculateMoveDistanceY,2));
-        double moveInTicks = moveDistance*Tick2Inches;
+        double moveInTicks = moveDistance/Tick2InchesNeo;
 
         //Get RobotAngle
         double robotTheta = RobotContainer.driveTrain.navX.getAngle();
+        //Logic: Avoid resetting encoders on accident when it gets off course
+        int correctionCount = 0;
 
         //If Coordinate is to the right of the robot
         if (robotTheta < tangentThetaDegrees){
@@ -71,6 +87,8 @@ public class SpecialMethods {
                 RobotContainer.driveTrain.setLeftMotors(slow);
                 RobotContainer.driveTrain.setRightMotors(-slow);    
             }
+
+            correctionCount = correctionCount + 1;
         }
         //If Coordinate is to the left of the robot
         if (robotTheta > tangentThetaDegrees){
@@ -79,11 +97,15 @@ public class SpecialMethods {
                 RobotContainer.driveTrain.setLeftMotors(-slow);
                 RobotContainer.driveTrain.setRightMotors(slow);  
             }
+
+            correctionCount = correctionCount + 1;
         }
-
-        MotorReset(); 
-        EncoderReset(); 
-
+        
+        //Logic: Avoid resetting encoders on accident when it gets off course
+        if (correctionCount <= 1){
+            MotorReset(); 
+            EncoderReset(); 
+        }
         //Robot goes to Coordinate
         while (-RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition() < moveInTicks &&
         -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition() < moveInTicks &&
@@ -175,13 +197,13 @@ public class SpecialMethods {
 
         switch (state){
             //Sets Solenoids OFF
-            case OFF:
-                if(Cutton && ianTimer.currentMills() > Delay){
-                    state = Cutton1.IN;
-                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kOff);
-                    ianTimer.reset();
-                }
-                break;
+            // case OFF:
+            //     if(Cutton && ianTimer.currentMills() > Delay){
+            //         state = Cutton1.IN;
+            //         RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kOff);
+            //         ianTimer.reset();
+            //     }
+            //     break;
             //Sets Solenoids IN
             case IN:
                 if(Cutton && ianTimer.currentMills() > Delay){
@@ -194,7 +216,7 @@ public class SpecialMethods {
             //Sets Solenoid Out
             case OUT:
                 if(Cutton && ianTimer.currentMills() > Delay){
-                    state = Cutton1.OFF;
+                    state = Cutton1.IN;
                     RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kReverse);
                     ianTimer.reset();
                 }
@@ -206,13 +228,13 @@ public class SpecialMethods {
     //Function that switches solenoid positions in Auto
     public static void ClimbingControl(String Position){
         switch (state){
-            //Sets Solenoids OFF
-            case OFF:
-                if(Position == "Off"){
-                    state = Cutton1.IN;
-                    RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kOff);
-                }
-                break;
+            // //Sets Solenoids OFF
+            // case OFF:
+            //     if(Position == "Off"){
+            //         state = Cutton1.IN;
+            //         RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kOff);
+            //     }
+            //     break;
             //Sets Solenoids IN
             case IN:
                 if(Position == "Forward"){
@@ -223,7 +245,7 @@ public class SpecialMethods {
             //Sets Solenoid Out
             case OUT:
                 if(Position == "Reverse"){
-                    state = Cutton1.OFF;
+                    state = Cutton1.IN;
                     RobotContainer.climbingSystem.IntakeSolenoid.set(Value.kReverse);
                 }
                 break;
@@ -238,13 +260,13 @@ public class SpecialMethods {
 
         switch (state){
             //Sets Solenoids OFF
-            case OFF:
-                if(Cutton && ianTimer.currentMills() > Delay){
-                    state = Cutton1.IN;
-                    RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kOff);
-                    ianTimer.reset();
-                }
-                break;
+            // case OFF:
+            //     if(Cutton && ianTimer.currentMills() > Delay){
+            //         state = Cutton1.IN;
+            //         RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kOff);
+            //         ianTimer.reset();
+            //     }
+            //     break;
             //Sets Solenoids IN
             case IN:
                 if(Cutton && ianTimer.currentMills() > Delay){
@@ -256,7 +278,7 @@ public class SpecialMethods {
             //Sets Solenoid Out
             case OUT:
                 if(Cutton && ianTimer.currentMills() > Delay){
-                    state = Cutton1.OFF;
+                    state = Cutton1.IN;
                     RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kReverse);
                     ianTimer.reset();
                 }
@@ -288,10 +310,134 @@ public class SpecialMethods {
                 //Exit Loop
                 check = true;
             }
+            //Speed Increment
             speed = speed + 0.01;
             RobotContainer.systems.ShooterSpeeds(speed);
         }
+        //Turn off shooter
         RobotContainer.systems.ShooterSpeeds(0);
     }
+
+    public static void CoordinateWizardWithCasters(double X1, double Y1, double X2, double Y2){
+        //Angle Calculations
+        double calculateMoveDistanceX = (X2-X1);
+        double calculateMoveDistanceY = (Y2-Y1);
+        double tangentTheta = Math.atan(calculateMoveDistanceX/calculateMoveDistanceY);
+        double tangentThetaDegrees = Math.toDegrees(tangentTheta);
+
+        //Distance Calculation using Trigonometric Distance Formula
+        double moveDistance = Math.sqrt(Math.pow(calculateMoveDistanceX,2) + Math.pow(calculateMoveDistanceY,2));
+        double moveInTicks = moveDistance/Tick2InchesCasters;
+
+        //Get RobotAngle
+        double robotTheta = RobotContainer.driveTrain.navX.getAngle();
+
+        //Logic: Avoid resetting encoders on accident when it gets off course
+        int correctionCount = 0;
+
+        //If Coordinate is to the right of the robot
+        if (robotTheta < tangentThetaDegrees){
+            while (robotTheta < tangentThetaDegrees){
+                robotTheta = RobotContainer.driveTrain.navX.getAngle();
+                RobotContainer.driveTrain.setLeftMotors(slow);
+                RobotContainer.driveTrain.setRightMotors(-slow);    
+            }
+
+            correctionCount = correctionCount + 1;
+        }
+        //If Coordinate is to the left of the robot
+        if (robotTheta > tangentThetaDegrees){
+            while (robotTheta > tangentThetaDegrees){
+                robotTheta = RobotContainer.driveTrain.navX.getAngle();
+                RobotContainer.driveTrain.setLeftMotors(-slow);
+                RobotContainer.driveTrain.setRightMotors(slow);  
+            }
+
+            correctionCount = correctionCount + 1;
+        }
+        
+        //Logic: Avoid resetting encoders on accident when it gets off course
+        if (correctionCount <= 1){
+            MotorReset(); 
+            EncoderReset(); 
+        }
+
+        //Robot goes to Coordinate
+        while (-RobotContainer.driveTrain.CasterLeft.get() < moveInTicks &&
+        RobotContainer.driveTrain.CasterRight.get() < moveInTicks){
+
+            RobotContainer.driveTrain.setLeftMotors(fast);
+            RobotContainer.driveTrain.setRightMotors(fast);            
+        }      
+    }
+
+    public static void TheAscent() {
+        SpecialMethods.UniversalReset();
+
+        RobotContainer.climbingSystem.ClimbingSolenoid.set(Value.kForward);
+
+        double winchingDistance = 36;
+        double winchingDistanceinTicks = Tick2InchesWinch * winchingDistance;
+
+        if (winchingDistanceinTicks > RobotContainer.climbingSystem.WinchEncoder.get()){
+
+        }
+    }
+
+    //WORK IN PROGRESS
+    public static void CoordinateWizardWithLocalization(double X2, double Y2){
+         //Angle Calculations
+         double calculateMoveDistanceX = (X2);
+         double calculateMoveDistanceY = (Y2);
+         double tangentTheta = Math.atan(calculateMoveDistanceX/calculateMoveDistanceY);
+         double tangentThetaDegrees = Math.toDegrees(tangentTheta);
+ 
+         //Distance Calculation using Trigonometric Distance Formula in inches
+         double moveDistance = Math.sqrt(Math.pow(calculateMoveDistanceX,2) + Math.pow(calculateMoveDistanceY,2));
+         double moveInTicks = moveDistance/Tick2InchesNeo;
+ 
+         //Get RobotAngle
+         double robotTheta = RobotContainer.driveTrain.navX.getAngle();
+         //Logic: Avoid resetting encoders on accident when it gets off course
+         int correctionCount = 0;
+ 
+         //If Coordinate is to the right of the robot
+         if (robotTheta < tangentThetaDegrees){
+             while (robotTheta < tangentThetaDegrees){
+                 robotTheta = RobotContainer.driveTrain.navX.getAngle();
+                 RobotContainer.driveTrain.setLeftMotors(slow);
+                 RobotContainer.driveTrain.setRightMotors(-slow);    
+             }
+ 
+             correctionCount = correctionCount + 1;
+         }
+         //If Coordinate is to the left of the robot
+         if (robotTheta > tangentThetaDegrees){
+             while (robotTheta > tangentThetaDegrees){
+                 robotTheta = RobotContainer.driveTrain.navX.getAngle();
+                 RobotContainer.driveTrain.setLeftMotors(-slow);
+                 RobotContainer.driveTrain.setRightMotors(slow);  
+             }
+ 
+             correctionCount = correctionCount + 1;
+         }
+         
+         //Logic: Avoid resetting encoders on accident when it gets off course
+         if (correctionCount <= 1){
+             MotorReset(); 
+             EncoderReset(); 
+         }
+         //Robot goes to Coordinate
+         while (-RobotContainer.driveTrain.motorLeftFrontEncoder.getPosition() < moveInTicks &&
+         -RobotContainer.driveTrain.motorLeftBackEncoder.getPosition() < moveInTicks &&
+         RobotContainer.driveTrain.motorRightFrontEncoder.getPosition() < moveInTicks &&
+         RobotContainer.driveTrain.motorRightBackEncoder.getPosition() < moveInTicks){
+ 
+             RobotContainer.driveTrain.setLeftMotors(slow);
+             RobotContainer.driveTrain.setRightMotors(slow);            
+         }      
+
+    }
 }
+
 
