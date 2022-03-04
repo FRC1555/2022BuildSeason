@@ -28,6 +28,7 @@ public class RobotContainer {
   //Our SubSystems
   public static final Systems systems = new Systems();
   public static final ClimbingSystem climbingSystem = new ClimbingSystem();
+  public static final Limelight limelight = new Limelight();
 
   //Our Autos
   private final Command m_GyroTest = new GyroTest();
