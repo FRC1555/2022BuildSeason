@@ -7,6 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,6 +26,9 @@ public class DriveTrain extends SubsystemBase {
   public RelativeEncoder motorLeftBackEncoder;
   public RelativeEncoder motorRightFrontEncoder;
   public RelativeEncoder motorRightBackEncoder;
+  //Caster Wheel Encoders
+  public Encoder CasterLeft;
+  public Encoder CasterRight; 
   
 
   //Mecanum Class Instantiation
@@ -34,7 +38,7 @@ public class DriveTrain extends SubsystemBase {
   public AHRS navX;
 
   //Ultrasonic Sensor Instantiation
-  public AnalogInput JimboTheUltrasonicSensor;
+  //public AnalogInput JimboTheUltrasonicSensor;
 
   public DriveTrain(){
   //Motor Instantiation
@@ -42,13 +46,15 @@ public class DriveTrain extends SubsystemBase {
   motorRightFront = new CANSparkMax(Constants.motorRightFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   motorLeftFront = new CANSparkMax(Constants.motorLeftFront_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
   motorLeftBack = new CANSparkMax(Constants.motorLeftBack_ID, com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
- 
 
   //Encoder Instantiation
   motorRightBackEncoder = motorRightBack.getEncoder();
   motorRightFrontEncoder = motorRightFront.getEncoder();
   motorLeftFrontEncoder = motorLeftFront.getEncoder();
   motorLeftBackEncoder = motorLeftBack.getEncoder();
+
+  CasterLeft = new Encoder(Constants.CasterLeft_ID_A, Constants.CasterLeft_ID_B);
+  CasterRight = new Encoder(Constants.CasterRight_ID_A, Constants.CasterRight_ID_B);
 
   //Inverts Motors For Mecanum
   motorLeftFront.setInverted(false);
@@ -58,7 +64,7 @@ public class DriveTrain extends SubsystemBase {
 
   //Sensor Instantiation
   navX = new AHRS(Constants.navX_ID);
-  JimboTheUltrasonicSensor = new AnalogInput(Constants.JimboTheUltrasonicSensor_ID);
+  //JimboTheUltrasonicSensor = new AnalogInput(Constants.JimboTheUltrasonicSensor_ID);
 
   //MecanumDrive Method Instantiation
   mecanumDrive = new MecanumDrive(motorLeftFront,motorLeftBack,motorRightFront,motorRightBack);
@@ -69,7 +75,6 @@ public class DriveTrain extends SubsystemBase {
   }
 
   
-
   //Used for Autonomous
   public void setLeftMotors(double speed){
     motorLeftFront.set(speed);
